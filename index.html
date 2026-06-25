@@ -105,6 +105,16 @@ body{font-family:"맑은 고딕","Malgun Gothic",sans-serif;background:var(--bg)
 .star-btn{background:none;border:none;cursor:pointer;font-size:18px;line-height:1;padding:2px 4px;transition:transform .15s;flex-shrink:0;}
 .star-btn:hover{transform:scale(1.25);}
 
+/* LOCK */
+.btn-lock{background:#fdf4ff;color:#7e22ce;}
+.btn-lock:hover{background:#7e22ce;color:#fff;}
+.btn-lock.locked{background:#7e22ce;color:#fff;}
+.memo-body-locked{filter:blur(5px);user-select:none;pointer-events:none;}
+.unlock-bar{display:flex;align-items:center;justify-content:center;gap:10px;padding:10px 0 4px;flex-wrap:wrap;}
+.pw-inline{padding:7px 11px;border:1.5px solid var(--border);border-radius:7px;font-size:13px;font-family:inherit;outline:none;width:180px;}
+.pw-inline:focus{border-color:var(--primary);}
+.lock-notice{font-size:12px;color:var(--muted);}
+
 /* PINNED SECTION */
 .section-divider{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.04em;padding:6px 0 10px;display:flex;align-items:center;gap:8px;}
 .section-divider::after{content:"";flex:1;height:1px;background:var(--border);}
@@ -129,6 +139,7 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
     <div class="header-sub" id="memo-total-count"></div>
   </div>
   <div class="header-btns">
+    <button class="hbtn" onclick="openPwSettings()">🔑 비밀번호</button>
     <button class="hbtn" onclick="openCatSettings()">⚙ 카테고리 설정</button>
     <button class="hbtn" onclick="exportHTML()">⬇ 내보내기</button>
   </div>
@@ -168,6 +179,29 @@ mark{background:#fef08a;border-radius:2px;padding:0 1px;}
     <div class="modal-footer">
       <button class="btn-secondary" onclick="closeMemoModal()">취소</button>
       <button class="btn-primary" onclick="saveMemo()">저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- PASSWORD SETTINGS MODAL -->
+<div class="overlay" id="pw-overlay">
+  <div class="modal" style="max-width:420px;">
+    <h2>🔑 비밀번호 설정</h2>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:18px;">잠금 메모를 볼 때 사용할 비밀번호를 설정합니다.<br>비밀번호는 이 기기에만 저장됩니다.</p>
+    <div id="pw-status" style="margin-bottom:14px;font-size:13px;"></div>
+    <div class="form-group">
+      <label class="form-label" id="pw-label-cur" style="display:none;">현재 비밀번호</label>
+      <input class="form-input" id="pw-cur" type="password" placeholder="현재 비밀번호" style="display:none;margin-bottom:10px;">
+      <label class="form-label">새 비밀번호</label>
+      <input class="form-input" id="pw-new" type="password" placeholder="새 비밀번호 입력">
+    </div>
+    <div class="form-group">
+      <label class="form-label">새 비밀번호 확인</label>
+      <input class="form-input" id="pw-confirm" type="password" placeholder="새 비밀번호 다시 입력">
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closePwSettings()">취소</button>
+      <button class="btn-primary" onclick="savePwSettings()">저장</button>
     </div>
   </div>
 </div>
@@ -976,6 +1010,12 @@ let editedMemos  = JSON.parse(localStorage.getItem("edited_memos")  || "{}");
 let hiddenMemos  = JSON.parse(localStorage.getItem("hidden_memos")  || "[]");
 let customCats   = JSON.parse(localStorage.getItem("custom_cats")   || "{}");
 let starredMemos = JSON.parse(localStorage.getItem("starred_memos") || "[]");
+let lockedMemos  = JSON.parse(localStorage.getItem("locked_memos")  || "[]");
+let pwHash       = localStorage.getItem("memo_pw_hash") || "bcf11257bc4e64c08d81a2055c77756082bfdb184d286a5b24bbbb38bf895c7b";
+// 기본 잠금 메모 (민감정보) - 처음 로드 시에만 적용
+const DEFAULT_LOCKED = ["sy02","f12","sy09"];
+// 이번 세션에서 비밀번호 입력하여 열린 메모들 (새로고침하면 다시 잠김)
+const unlockedSession = new Set();
 
 function CATS() {
   return DEFAULT_CATS.map(c => ({...c, label: customCats[c.id] || c.label}));
@@ -995,12 +1035,18 @@ function saveStorage() {
   localStorage.setItem("hidden_memos",  JSON.stringify(hiddenMemos));
   localStorage.setItem("custom_cats",   JSON.stringify(customCats));
   localStorage.setItem("starred_memos", JSON.stringify(starredMemos));
+  localStorage.setItem("locked_memos",  JSON.stringify(lockedMemos));
 }
 
 // ═══════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════
 function init() {
+  // 처음 방문 시 민감 메모 자동 잠금
+  if (!localStorage.getItem("locked_memos")) {
+    lockedMemos = [...DEFAULT_LOCKED];
+    saveStorage();
+  }
   const hash = location.hash.replace("#","");
   if (hash.startsWith("memo-")) {
     const id = hash.replace("memo-","");
@@ -1073,39 +1119,138 @@ function hl(text, q) {
 }
 
 function cardHTML(m, q) {
-  const isUser   = userMemos.some(u => u.id === m.id);
-  const isEdited = !!m._edited;
+  const isUser    = userMemos.some(u => u.id === m.id);
+  const isEdited  = !!m._edited;
   const isStarred = starredMemos.includes(String(m.id));
-  const catLabel = getCatLabel(m.cat);
+  const isLocked  = lockedMemos.includes(String(m.id));
+  const isOpen    = unlockedSession.has(String(m.id));
+  const catLabel  = getCatLabel(m.cat);
   const tags = (m.tags||[]).map(t =>
     `<span class="tag ${t==="템플릿"?"tag-tmpl":"tag-info"}">${esc(t)}</span>`).join("");
 
   const resetBtn = isEdited
     ? `<button class="btn btn-reset" onclick="resetMemo('${m.id}')" title="원본으로 되돌리기">↺ 초기화</button>`
     : "";
-  const delBtn = isUser
-    ? `<button class="btn btn-del" onclick="deleteMemo('${m.id}')" title="삭제">🗑 삭제</button>`
-    : `<button class="btn btn-del" onclick="hideMemo('${m.id}')" title="숨기기">✕ 숨기기</button>`;
+  const delBtn = `<button class="btn btn-del" onclick="deleteMemo('${m.id}','${isUser?"user":"base"}')" title="삭제">🗑 삭제</button>`;
+  const lockBtn = `<button class="btn btn-lock ${isLocked?"locked":""}" onclick="toggleLock('${m.id}')" title="${isLocked?"잠금 해제":"잠금 설정"}">${isLocked?"🔒":"🔓"}</button>`;
+
+  // 잠긴 메모이고 세션에서 열지 않은 경우
+  const bodyHTML = (isLocked && !isOpen)
+    ? `<div class="memo-body memo-body-locked">${esc(m.body)}</div>
+       <div class="unlock-bar">
+         <span class="lock-notice">🔒 잠긴 메모입니다.</span>
+         <input class="pw-inline" type="password" id="pw-${m.id}" placeholder="비밀번호 입력" onkeydown="if(event.key==='Enter')unlockMemo('${m.id}')">
+         <button class="btn btn-primary" style="padding:6px 13px;" onclick="unlockMemo('${m.id}')">열기</button>
+       </div>`
+    : `<div class="memo-body">${hl(m.body, q)}</div>`;
 
   return `<div class="memo-card ${isUser?"user-added":isEdited?"edited-base":""}" id="memo-${m.id}">
     <div class="memo-head">
       <button class="star-btn" onclick="toggleStar('${m.id}')" title="${isStarred?"즐겨찾기 해제":"즐겨찾기 추가"}">${isStarred?"⭐":"☆"}</button>
       <div class="memo-title">${hl(m.title, q)}</div>
       <div class="memo-actions">
+        ${lockBtn}
         <button class="btn btn-copy"  onclick="copyMemo('${m.id}')"  title="복사">📋 복사</button>
-        <button class="btn btn-share" onclick="shareMemo('${m.id}')" title="공유">🔗 공유</button>
         <button class="btn btn-edit"  onclick="openEditModal('${m.id}')" title="수정">✏️ 수정</button>
         ${resetBtn}
         ${delBtn}
       </div>
     </div>
-    <div class="memo-body">${hl(m.body, q)}</div>
+    ${bodyHTML}
     <div class="memo-tags">
       <span class="tag tag-cat">${esc(catLabel)}</span>
       ${tags}
-      ${isEdited ? '<span class="tag tag-warn">수정됨</span>' : ""}
+      ${isEdited  ? '<span class="tag tag-warn">수정됨</span>' : ""}
+      ${isLocked  ? '<span class="tag" style="background:#fdf4ff;color:#7e22ce;">🔒 잠금</span>' : ""}
     </div>
   </div>`;
+}
+
+// ═══════════════════════════════════════
+// PASSWORD HELPERS
+// ═══════════════════════════════════════
+async function hashPw(pw) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(pw));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,"0")).join("");
+}
+async function checkPw(input) {
+  if (!pwHash) return true; // 비밀번호 미설정 시 무조건 통과
+  return (await hashPw(input)) === pwHash;
+}
+
+// ═══════════════════════════════════════
+// LOCK
+// ═══════════════════════════════════════
+function toggleLock(id) {
+  const sid = String(id);
+  if (lockedMemos.includes(sid)) {
+    lockedMemos = lockedMemos.filter(s => s !== sid);
+    unlockedSession.delete(sid);
+    toast("🔓 잠금이 해제되었습니다");
+  } else {
+    lockedMemos.push(sid);
+    unlockedSession.delete(sid);
+    toast("🔒 메모가 잠겼습니다");
+  }
+  saveStorage();
+  renderMemos();
+}
+
+async function unlockMemo(id) {
+  const input = document.getElementById("pw-" + id);
+  if (!input) return;
+  if (!pwHash) {
+    toast("⚠️ 먼저 🔑 비밀번호 버튼에서 비밀번호를 설정해주세요");
+    return;
+  }
+  const ok = await checkPw(input.value);
+  if (ok) {
+    unlockedSession.add(String(id));
+    renderMemos();
+    toast("✅ 잠금이 열렸습니다 (새로고침하면 다시 잠김)");
+  } else {
+    input.value = "";
+    input.style.borderColor = "var(--red)";
+    setTimeout(() => input.style.borderColor = "", 1200);
+    toast("❌ 비밀번호가 틀렸습니다");
+  }
+}
+
+// ═══════════════════════════════════════
+// PASSWORD SETTINGS
+// ═══════════════════════════════════════
+function openPwSettings() {
+  const hasPw = !!pwHash;
+  document.getElementById("pw-label-cur").style.display = hasPw ? "block" : "none";
+  document.getElementById("pw-cur").style.display = hasPw ? "block" : "none";
+  document.getElementById("pw-cur").value = "";
+  document.getElementById("pw-new").value = "";
+  document.getElementById("pw-confirm").value = "";
+  document.getElementById("pw-status").textContent = hasPw
+    ? "✅ 비밀번호가 설정되어 있습니다. 변경하려면 현재 비밀번호를 입력하세요."
+    : "⚠️ 비밀번호가 설정되지 않았습니다. 잠금 메모를 사용하려면 설정해주세요.";
+  document.getElementById("pw-status").style.color = hasPw ? "var(--green)" : "var(--amber)";
+  document.getElementById("pw-overlay").classList.add("open");
+}
+function closePwSettings() { document.getElementById("pw-overlay").classList.remove("open"); }
+
+async function savePwSettings() {
+  const curVal  = document.getElementById("pw-cur").value;
+  const newVal  = document.getElementById("pw-new").value.trim();
+  const confVal = document.getElementById("pw-confirm").value.trim();
+
+  if (pwHash) {
+    const ok = await checkPw(curVal);
+    if (!ok) { toast("❌ 현재 비밀번호가 틀렸습니다"); return; }
+  }
+  if (!newVal) { toast("⚠️ 새 비밀번호를 입력해주세요"); return; }
+  if (newVal !== confVal) { toast("⚠️ 비밀번호가 일치하지 않습니다"); return; }
+  if (newVal.length < 4) { toast("⚠️ 비밀번호는 4자 이상이어야 합니다"); return; }
+
+  pwHash = await hashPw(newVal);
+  localStorage.setItem("memo_pw_hash", pwHash);
+  closePwSettings();
+  toast("✅ 비밀번호가 저장되었습니다");
 }
 
 // ═══════════════════════════════════════
@@ -1215,19 +1360,13 @@ function resetMemo(id) {
   toast("↺ 원본으로 되돌렸습니다");
 }
 
-function hideMemo(id) {
-  if (!confirm("이 메모를 숨기시겠습니까? (설정에서 복원 가능)")) return;
-  hiddenMemos.push(String(id));
-  saveStorage();
-  buildTabs();
-  renderMemos();
-  updateCount();
-  toast("✕ 메모를 숨겼습니다");
-}
-
-function deleteMemo(id) {
+function deleteMemo(id, type) {
   if (!confirm("이 메모를 삭제하시겠습니까?")) return;
-  userMemos = userMemos.filter(m => String(m.id) !== String(id));
+  if (type === "user") {
+    userMemos = userMemos.filter(m => String(m.id) !== String(id));
+  } else {
+    hiddenMemos.push(String(id));
+  }
   saveStorage();
   buildTabs();
   renderMemos();
@@ -1270,6 +1409,7 @@ document.querySelectorAll(".overlay").forEach(o => {
     if (e.target === o) {
       closeMemoModal();
       closeCatSettings();
+      closePwSettings();
     }
   });
 });
