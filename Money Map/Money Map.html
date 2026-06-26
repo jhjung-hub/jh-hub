@@ -187,7 +187,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
 
 <div class="header">
   <div class="header-top">
-    <h1 id="app-title">MoneyMap</h1>
+    <h1 id="app-title">Money Map</h1>
     <button class="icon-btn" onclick="openSettings()" title="설정">⚙️</button>
     <button class="icon-btn" onclick="doLock()" title="잠금">🔒</button>
   </div>
@@ -954,7 +954,7 @@ function moveTabItem(idx, dir){
 }
 function closeSettings(){ document.getElementById('settings-modal').classList.remove('open'); }
 function saveSettings(){
-  const newTitle = document.getElementById('s-title').value.trim() || 'MoneyMap';
+  const newTitle = document.getElementById('s-title').value.trim() || 'Money Map';
   localStorage.setItem('app_title', newTitle);
   const items = Array.from(document.querySelectorAll('#tab-order-list .tab-order-item'));
   const savedTabs = items.map(item => ({id:item.dataset.id, name:item.querySelector('input').value.trim()||item.dataset.id}));
