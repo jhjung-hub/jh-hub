@@ -238,20 +238,20 @@ tr.row-folded .row-fold-btn{color:#aaa;}
     <button class="icon-btn" onclick="openSettings()" title="설정">⚙️</button>
     <button class="icon-btn" onclick="doLock()" title="잠금">🔒</button>
   </div>
-  <p id="header-date">마지막 업데이트: 2026년 6월 26일 21:35 · ⏳ 저장 중...</p>
+  <p id="header-date">마지막 업데이트: 2026년 6월 26일 21:38 · ⏳ 저장 중...</p>
   <div class="tabs">
     
     
     
     
     
-  <button class="tab" id="tab-btn-dashboard" onclick="showTab('dashboard',this)">📊 대시보드</button><button class="tab" id="tab-btn-savings" onclick="showTab('savings',this)">💰 예·적금</button><button class="tab" id="tab-btn-apt" onclick="showTab('apt',this)">🏠 의뷰아</button><button class="tab" id="tab-btn-monthly" onclick="showTab('monthly',this)">📅 월 지출</button><button class="tab active" id="tab-btn-stocks" onclick="showTab('stocks',this)">🍎 주식</button></div>
+  <button class="tab active" id="tab-btn-dashboard" onclick="showTab('dashboard',this)">📊 대시보드</button><button class="tab" id="tab-btn-savings" onclick="showTab('savings',this)">💰 예·적금</button><button class="tab" id="tab-btn-apt" onclick="showTab('apt',this)">🏠 의뷰아</button><button class="tab" id="tab-btn-monthly" onclick="showTab('monthly',this)">📅 월 지출</button><button class="tab" id="tab-btn-stocks" onclick="showTab('stocks',this)">🍎 주식</button></div>
 </div>
 
 <div class="content">
 
 <!-- ══════════════ 대시보드 ══════════════ -->
-<div id="panel-dashboard" class="panel">
+<div id="panel-dashboard" class="panel active">
   <div class="stats-row">
     <div class="stat-card">
       <div class="stat-label">총 금융자산</div>
@@ -421,11 +421,11 @@ tr.row-folded .row-fold-btn{color:#aaa;}
         <div class="card-title">
           📌 메모
           <div style="display:flex;gap:6px;">
-            <button class="btn btn-edit btn-sm" id="memo-edit-btn" onclick="toggleMemoEdit()">✏️ 수정</button>
-            <button class="btn btn-success btn-sm" id="memo-save-btn" style="display:none;" onclick="saveMemo()">💾 저장</button>
+            <button class="btn btn-edit btn-sm" id="memo-edit-btn" onclick="toggleMemoEdit()" style="">✏️ 수정</button>
+            <button class="btn btn-success btn-sm" id="memo-save-btn" style="display: none;" onclick="saveMemo()">💾 저장</button>
           </div>
         </div>
-        <textarea id="memo" readonly="" style="width:100%;border:1.5px solid #e8e8e8;border-radius:8px;padding:10px;font-size:12px;resize:vertical;min-height:90px;font-family:inherit;color:#333;cursor:default;background:#fafafa;box-sizing:border-box;" placeholder="메모를 입력하세요..."></textarea>
+        <textarea id="memo" style="width: 100%; border: 1.5px solid rgb(232, 232, 232); border-radius: 8px; padding: 10px; font-size: 12px; resize: vertical; min-height: 90px; font-family: inherit; color: rgb(51, 51, 51); cursor: default; background: rgb(250, 250, 250); box-sizing: border-box;" placeholder="메모를 입력하세요..." readonly="">ㅇㅇㅇ</textarea>
       </div>
     </div>
   </div>
@@ -883,7 +883,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
 </div>
 
 <!-- ══════════════ 주식 ══════════════ -->
-<div id="panel-stocks" class="panel active">
+<div id="panel-stocks" class="panel">
 
   <div class="two-col">
     <!-- 보유 종목 -->
@@ -1456,7 +1456,7 @@ function toggleStockEdit(){
 function addStockRow(){
   const tbody = document.getElementById('stock-tbody');
   const tr = document.createElement('tr');
-  tr.innerHTML = `<td contenteditable="true">종목명</td><td class="tnum s-buy-price" contenteditable="true">—</td><td class="tnum s-qty" contenteditable="true">—</td><td class="tnum s-cost">—</td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">0</td><td class="tnum s-pct">—</td><td class="s-note" contenteditable="true"></td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td>`;
+  tr.innerHTML = `<td contenteditable="true">종목명</td><td class="tnum s-buy-price" contenteditable="true" oninput="recalcStocks()">—</td><td class="tnum s-qty" contenteditable="true" oninput="recalcStocks()">—</td><td class="tnum s-cost" contenteditable="true" oninput="recalcStocks()">—</td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">0</td><td class="tnum s-pct">—</td><td class="s-note" contenteditable="true"></td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td>`;
   tbody.appendChild(tr);
   recalcStocks();
 }
@@ -1466,8 +1466,7 @@ function delStockRow(btn){
 function addTradeRow(){
   const tbody = document.getElementById('trade-tbody');
   const tr = document.createElement('tr');
-  const ce = tradeEditMode ? 'contenteditable="true"' : '';
-  tr.innerHTML = `<td ${ce}>종목명</td><td class="tnum" ${ce}>—</td><td class="tnum" ${ce}>—</td><td class="tnum" ${ce}>—</td><td class="tnum" ${ce}>—</td><td ${ce}>—</td><td><button class="btn-icon" onclick="delTradeRow(this)">🗑</button></td>`;
+  tr.innerHTML = `<td contenteditable="true">종목명</td><td class="tnum" contenteditable="true" oninput="recalcTradeTotal()">—</td><td class="tnum" contenteditable="true" oninput="recalcTradeTotal()">—</td><td class="tnum" contenteditable="true" oninput="recalcTradeTotal()">—</td><td class="tnum" contenteditable="true" oninput="recalcTradeTotal()">—</td><td contenteditable="true">—</td><td><button class="btn-icon" onclick="delTradeRow(this)">🗑</button></td>`;
   tbody.appendChild(tr);
 }
 function delTradeRow(btn){
@@ -1579,7 +1578,8 @@ function recalcStocks(){
     const qty = parseNum(tr.querySelector('.s-qty')?.textContent);
     const costCell = tr.querySelector('.s-cost');
     const valCell = tr.querySelector('.s-val');
-    if(costCell && bp && qty) costCell.textContent = fmt(bp*qty);
+    // bp와 qty 둘 다 입력됐을 때만 총매수원금 자동계산
+    if(costCell && bp > 0 && qty > 0) costCell.textContent = fmt(bp*qty);
     const val = parseNum(valCell?.textContent);
     total += val;
   });
