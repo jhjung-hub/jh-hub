@@ -100,6 +100,8 @@ tr.row-folded .row-fold-btn{color:#aaa;}
 .btn-edit{background:#f0f2f5;color:#555;}.btn-edit:hover{background:#e0e4e8;}
 .btn-sm{padding:3px 9px;font-size:10px;}
 .btn-icon{background:none;border:none;cursor:pointer;font-size:14px;padding:2px 5px;border-radius:4px;transition:background 0.15s;}
+#stock-tbody .btn-icon,#trade-tbody .btn-icon{visibility:hidden;pointer-events:none;}
+#stock-tbody.edit-mode .btn-icon,#trade-tbody.edit-mode .btn-icon{visibility:visible;pointer-events:auto;}
 .btn-icon:hover{background:#f0f0f0;}
 
 /* ── EDIT NOTE ── */
@@ -238,7 +240,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
     <button class="icon-btn" onclick="openSettings()" title="설정">⚙️</button>
     <button class="icon-btn" onclick="doLock()" title="잠금">🔒</button>
   </div>
-  <p id="header-date">마지막 업데이트: 2026년 6월 26일 21:47 · ⏳ 저장 중...</p>
+  <p id="header-date">마지막 업데이트: 2026년 6월 26일 22:01 · ⏳ 저장 중...</p>
   <div class="tabs">
     
     
@@ -900,15 +902,15 @@ tr.row-folded .row-fold-btn{color:#aaa;}
           <thead>
             <tr><th>종목명</th><th>1주당 구매가</th><th>보유주식수</th><th>총매수원금</th><th>평가금액</th><th>비중</th><th>비고</th><th></th></tr>
           </thead>
-          <tbody id="stock-tbody">
-            <tr data-kind="parking"><td>파킹 (예수금)</td><td class="tnum s-buy-price" contenteditable="true">—</td><td class="tnum s-qty" contenteditable="true">—</td><td class="tnum s-cost" contenteditable="true">—</td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">0</td><td class="tnum s-pct">0.0%</td><td class="s-note">파킹통장</td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td></tr>
+          <tbody id="stock-tbody" class="">
+            <tr data-kind="parking"><td>파킹 (예수금)</td><td class="tnum s-buy-price" contenteditable="true"><br></td><td class="tnum s-qty" contenteditable="true"><br></td><td class="tnum s-cost" contenteditable="true"><br></td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">0</td><td class="tnum s-pct">0.0%</td><td class="s-note">파킹통장</td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td></tr>
             <tr><td contenteditable="false">레인보우로보틱스</td><td class="tnum s-buy-price" contenteditable="true">10,000<br></td><td class="tnum s-qty" contenteditable="true">10<br></td><td class="tnum s-cost">100,000</td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">10,199,560</td><td class="tnum s-pct">22.2%</td><td class="s-note" contenteditable="true"></td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td></tr>
-            <tr><td contenteditable="false">로보스타</td><td class="tnum s-buy-price" contenteditable="true">—</td><td class="tnum s-qty" contenteditable="true">—</td><td class="tnum s-cost">—</td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">875,246</td><td class="tnum s-pct">1.9%</td><td class="s-note" contenteditable="true"></td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td></tr>
-            <tr><td contenteditable="false">삼성SDI</td><td class="tnum s-buy-price" contenteditable="true">—</td><td class="tnum s-qty" contenteditable="true">—</td><td class="tnum s-cost">—</td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">3,856,272</td><td class="tnum s-pct">8.4%</td><td class="s-note" contenteditable="true"></td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td></tr>
-            <tr><td contenteditable="false">삼성전기</td><td class="tnum s-buy-price" contenteditable="true">—</td><td class="tnum s-qty" contenteditable="true">—</td><td class="tnum s-cost">—</td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">5,988,000</td><td class="tnum s-pct">13.0%</td><td class="s-note" contenteditable="true">일부 매도</td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td></tr>
-            <tr><td contenteditable="false">한화에어로스페이스</td><td class="tnum s-buy-price" contenteditable="true">—</td><td class="tnum s-qty" contenteditable="true">—</td><td class="tnum s-cost">—</td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">3,164,658</td><td class="tnum s-pct">6.9%</td><td class="s-note" contenteditable="true"></td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td></tr>
-            <tr><td contenteditable="false">LG전자</td><td class="tnum s-buy-price" contenteditable="true">—</td><td class="tnum s-qty" contenteditable="true">—</td><td class="tnum s-cost">—</td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">10,104,750</td><td class="tnum s-pct">22.0%</td><td class="s-note" contenteditable="true"></td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td></tr>
-            <tr><td contenteditable="false">SK하이닉스</td><td class="tnum s-buy-price" contenteditable="true">—</td><td class="tnum s-qty" contenteditable="true">—</td><td class="tnum s-cost">—</td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">11,732,488</td><td class="tnum s-pct">25.5%</td><td class="s-note" contenteditable="true">일부 매도</td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td></tr>
+            <tr><td contenteditable="false">로보스타</td><td class="tnum s-buy-price" contenteditable="true"><br></td><td class="tnum s-qty" contenteditable="true"><br></td><td class="tnum s-cost">—</td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">875,246</td><td class="tnum s-pct">1.9%</td><td class="s-note" contenteditable="true"></td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td></tr>
+            <tr><td contenteditable="false">삼성SDI</td><td class="tnum s-buy-price" contenteditable="true"><br></td><td class="tnum s-qty" contenteditable="true"><br></td><td class="tnum s-cost">—</td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">3,856,272</td><td class="tnum s-pct">8.4%</td><td class="s-note" contenteditable="true"></td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td></tr>
+            <tr><td contenteditable="false">삼성전기</td><td class="tnum s-buy-price" contenteditable="true"><br></td><td class="tnum s-qty" contenteditable="true"><br></td><td class="tnum s-cost">—</td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">5,988,000</td><td class="tnum s-pct">13.0%</td><td class="s-note" contenteditable="true">일부 매도</td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td></tr>
+            <tr><td contenteditable="false">한화에어로스페이스</td><td class="tnum s-buy-price" contenteditable="true"><br></td><td class="tnum s-qty" contenteditable="true"><br></td><td class="tnum s-cost">—</td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">3,164,658</td><td class="tnum s-pct">6.9%</td><td class="s-note" contenteditable="true"></td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td></tr>
+            <tr><td contenteditable="false">LG전자</td><td class="tnum s-buy-price" contenteditable="true"><br></td><td class="tnum s-qty" contenteditable="true"><br></td><td class="tnum s-cost">—</td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">10,104,750</td><td class="tnum s-pct">22.0%</td><td class="s-note" contenteditable="true"></td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td></tr>
+            <tr><td contenteditable="false">SK하이닉스</td><td class="tnum s-buy-price" contenteditable="true"><br></td><td class="tnum s-qty" contenteditable="true"><br></td><td class="tnum s-cost">—</td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">11,732,488</td><td class="tnum s-pct">25.5%</td><td class="s-note" contenteditable="true">일부 매도</td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td></tr>
           </tbody>
           <tfoot>
             <tr class="summary-row">
@@ -940,6 +942,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
       <div class="card-title">
         📝 매매 이력
         <button class="btn btn-edit btn-sm" onclick="addTradeRow()">+ 추가</button>
+        <button class="btn btn-edit btn-sm" id="trade-edit-btn" onclick="toggleTradeEdit()" style="margin-left:4px;">✏️ 수정</button>
       </div>
       <div class="table-wrap">
         <table>
@@ -1277,6 +1280,11 @@ function recalcDoneTotal(tbodyId, totalId, colIdx){
 }
 
 // ═══ 숫자 콤마 자동 포맷터 ═══
+// Event delegation: always trigger recalc regardless of localStorage-restored HTML
+document.addEventListener('input', function(e){
+  if(e.target.closest('#stock-tbody')) recalcStocks();
+  if(e.target.closest('#trade-tbody')) recalcTradeTotal();
+});
 document.addEventListener('focusout', function(e){
   const el = e.target;
   if(el.contentEditable !== 'true') return;
@@ -1446,10 +1454,12 @@ let stockEditMode = false;
 function toggleStockEdit(){
   stockEditMode = !stockEditMode;
   const btn = document.getElementById('stock-edit-btn');
+  const tbody = document.getElementById('stock-tbody');
   const nameFields = document.querySelectorAll('#stock-tbody td:first-child');
   nameFields.forEach(td => {
     if(!td.closest('tr').dataset.kind) td.contentEditable = stockEditMode ? 'true' : 'false';
   });
+  tbody.classList.toggle('edit-mode', stockEditMode);
   btn.textContent = stockEditMode ? '✕ 완료' : '✏️ 수정';
   if(!stockEditMode){ recalcStocks(); persistData(); }
 }
@@ -1482,12 +1492,14 @@ function toggleTradeEdit(){
     tradeOrig = Array.from(document.getElementById('trade-tbody').querySelectorAll('td')).map(c => c.innerHTML);
     saveRow.style.display = '';
     btn.textContent = '✕';
+    document.getElementById('trade-tbody').classList.add('edit-mode');
   } else { cancelTradeEdit(); }
 }
 function saveTradeEdit(){
   tradeEditMode = false;
   document.getElementById('trade-save-row').style.display = 'none';
   document.getElementById('trade-edit-btn').textContent = '✏️ 수정';
+  document.getElementById('trade-tbody').classList.remove('edit-mode');
   recalcTradeTotal();
   persistData();
 }
@@ -1497,6 +1509,7 @@ function cancelTradeEdit(){
   cells.forEach((c,i) => { if(tradeOrig[i]!==undefined) c.innerHTML = tradeOrig[i]; });
   document.getElementById('trade-save-row').style.display = 'none';
   document.getElementById('trade-edit-btn').textContent = '✏️ 수정';
+  document.getElementById('trade-tbody').classList.remove('edit-mode');
   recalcTradeTotal();
 }
 
