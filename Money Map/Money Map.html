@@ -942,14 +942,14 @@ tr.row-folded .row-fold-btn{color:#aaa;}
       <div class="card-title">
         📝 매매 이력
         <button class="btn btn-edit btn-sm" onclick="addTradeRow()">+ 추가</button>
-        <button class="btn btn-edit btn-sm" id="trade-edit-btn" onclick="toggleTradeEdit()" style="margin-left:4px;">✏️ 수정</button>
+        <button class="btn btn-edit btn-sm" id="trade-edit-btn" onclick="toggleTradeEdit()" style="margin-left:4px;">✕</button>
       </div>
       <div class="table-wrap">
         <table>
           <thead>
             <tr><th>종목명</th><th>1주당 구매가</th><th>1주당 판매가</th><th>총매수원금</th><th>총판매수익</th><th>매도일자</th><th></th></tr>
           </thead>
-          <tbody id="trade-tbody">
+          <tbody id="trade-tbody" class="edit-mode">
             <tr><td contenteditable="true">삼성전기</td><td class="tnum" contenteditable="true">55</td><td class="tnum" contenteditable="true">—</td><td class="tnum" contenteditable="true">—</td><td class="tnum" contenteditable="true">30,647,587</td><td contenteditable="true">—</td><td><button class="btn-icon" onclick="delTradeRow(this)">🗑</button></td></tr>
             <tr><td contenteditable="true">삼성전자</td><td class="tnum" contenteditable="true">—</td><td class="tnum" contenteditable="true">1,000</td><td class="tnum" contenteditable="true">—</td><td class="tnum" contenteditable="true">9,161,640</td><td contenteditable="true">—</td><td><button class="btn-icon" onclick="delTradeRow(this)">🗑</button></td></tr>
             <tr><td contenteditable="true">한미반도체</td><td class="tnum" contenteditable="true">—</td><td class="tnum" contenteditable="true">1,000</td><td class="tnum" contenteditable="true">—</td><td class="tnum" contenteditable="true">1,736,520</td><td contenteditable="true">—</td><td><button class="btn-icon" onclick="delTradeRow(this)">🗑</button></td></tr>
@@ -962,7 +962,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
           </tfoot>
         </table>
       </div>
-      <div id="trade-save-row" style="display:none;margin-top:10px;text-align:right;"><button class="btn btn-success" onclick="saveTradeEdit()">💾 저장</button><button class="btn btn-danger" onclick="cancelTradeEdit()" style="margin-left:6px;">취소</button></div>
+      <div id="trade-save-row" style="margin-top: 10px; text-align: right;"><button class="btn btn-success" onclick="saveTradeEdit()">💾 저장</button><button class="btn btn-danger" onclick="cancelTradeEdit()" style="margin-left:6px;">취소</button></div>
     </div>
   </div>
 
