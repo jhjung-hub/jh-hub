@@ -109,87 +109,34 @@ tr.row-folded .row-fold-btn{color:#aaa;}
 /* ── TWO COL ── */
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 @media(max-width:700px){.two-col{grid-template-columns:1fr;}}
-/* ════════════════════════════════
-   📱 RESPONSIVE (모바일 480px 이하)
-   ════════════════════════════════ */
-@media (max-width: 480px) {
-
-  /* 헤더 */
-  .header { padding: 14px 14px 0; }
-  .header-top h1 { font-size: 16px; }
-  .header p { font-size: 10px; margin-bottom: 10px; }
-
-  /* 탭: 가로 스크롤 */
-  .tabs {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    flex-wrap: nowrap;
-    padding-bottom: 2px;
-  }
-  .tabs::-webkit-scrollbar { display: none; }
-  .tab { padding: 8px 12px; font-size: 11px; white-space: nowrap; flex-shrink: 0; }
-
-  /* 콘텐츠 패딩 */
-  .content { padding: 12px; }
-
-  /* 카드 */
-  .card { padding: 12px; margin-bottom: 12px; }
-
-  /* stat 카드: 2열 */
-  .stats-row { grid-template-columns: 1fr 1fr; gap: 8px; }
-  .stat-card { padding: 10px 8px; }
-  .stat-value { font-size: 14px !important; }
-  .stat-label { font-size: 9px; }
-  .stat-sub { font-size: 9px; }
-
-  /* 테이블 폰트 */
-  table { font-size: 10px; }
-  th, td { padding: 5px 4px !important; }
-
-  /* 버튼 터치 타깃 */
-  .btn { padding: 7px 12px; font-size: 11px; min-height: 34px; }
-  .btn-sm { padding: 5px 9px; font-size: 10px; min-height: 30px; }
-  .btn-icon { padding: 6px 8px; font-size: 16px; min-height: 34px; }
-
-  /* 잠금화면 */
-  .lock-box { width: 88vw; padding: 28px 20px; }
-
-  /* 모달 */
-  .modal { width: 92vw; padding: 20px 16px; max-height: 88vh; }
-
-  /* 카드 제목 줄바꿈 허용 */
-  .card-title { flex-wrap: wrap; gap: 6px; }
-
-  /* 섹션헤더 */
-  .section-header { font-size: 11px; }
-
-  /* two-col: 이미 700px에서 처리되지만 재확인 */
-  .two-col { grid-template-columns: 1fr; gap: 10px; }
-
-  /* 타임라인 */
-  .tl-amount { font-size: 11px; }
-  .tl-title { font-size: 12px; }
-  .tl-date { font-size: 10px; }
-
-  /* 진행바 */
-  .progress-label { font-size: 10px; }
-
-  /* 상태 배너 */
-  #gh-status-bar { font-size: 10px; }
-
-  /* tag */
-  .tag { font-size: 9px; padding: 2px 5px; }
+@media(max-width:480px){
+  body{font-size:13px;}
+  .tabs{gap:2px;padding:0 4px;}
+  .tab-btn{padding:7px 8px;font-size:11px;}
+  .stats-row{grid-template-columns:1fr 1fr;gap:8px;}
+  .stat-value{font-size:16px;}
+  .card{padding:12px;}
+  .card-title{font-size:13px;}
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  table{font-size:11px;}
+  th,td{padding:5px 6px;}
+  .btn{padding:5px 10px;font-size:11px;}
+  .btn-sm{padding:3px 7px;font-size:10px;}
+  .section-header{font-size:12px;}
+  .two-col{grid-template-columns:1fr;}
+  #memo{font-size:12px;min-height:80px;}
+  .header-bar{flex-wrap:wrap;gap:6px;}
+  .header-bar h1{font-size:15px;}
+  .header-right{flex-wrap:wrap;gap:4px;}
 }
-
-/* 태블릿 (481~768px) */
-@media (min-width: 481px) and (max-width: 768px) {
-  .stats-row { grid-template-columns: 1fr 1fr; }
-  .modal { width: 80vw; }
-  .tab { padding: 9px 14px; font-size: 11px; }
-  .content { padding: 14px; }
+@media(min-width:481px) and (max-width:768px){
+  .stats-row{grid-template-columns:repeat(3,1fr);}
+  .two-col{grid-template-columns:1fr;}
+  .tab-btn{padding:8px 12px;font-size:12px;}
+  table{font-size:12px;}
+  th,td{padding:6px 7px;}
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
 }
-
 
 /* ── TIMELINE ── */
 .timeline{position:relative;padding-left:24px;}
@@ -308,7 +255,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
   <div class="stats-row">
     <div class="stat-card">
       <div class="stat-label">총 금융자산</div>
-      <div class="stat-value c-blue" id="d-total">299,495,848원</div>
+      <div class="stat-value c-blue" id="d-total">275,484,722원</div>
       <div class="stat-sub">예·적금 + 파킹 + 주식</div>
     </div>
     <div class="stat-card">
@@ -318,7 +265,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
     </div>
     <div class="stat-card">
       <div class="stat-label">파킹계좌 합계</div>
-      <div class="stat-value c-teal" id="d-parking">24,011,126원</div>
+      <div class="stat-value c-teal" id="d-parking">0원</div>
       <div class="stat-sub">케이뱅크 + 토스증권</div>
     </div>
     <div class="stat-card">
@@ -328,7 +275,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
     </div>
     <div class="stat-card">
       <div class="stat-label">월 저축 합계</div>
-      <div class="stat-value c-orange" id="d-monthly">1,500,000원</div>
+      <div class="stat-value c-orange" id="d-monthly">3,700,000원</div>
       <div class="stat-sub">이달 납입액 기준</div>
     </div>
   </div>
@@ -407,15 +354,15 @@ tr.row-folded .row-fold-btn{color:#aaa;}
             <span style="font-size:12px;color:#555;">납부 진행률</span>
             <span style="font-size:12px;font-weight:700;" class="c-green">중도금 1차 완료</span>
           </div>
-          <div class="progress-bar"><div class="progress-fill" style="width:35%;background:linear-gradient(90deg,#0a7c4e,#16a36e);"></div></div>
+          <div class="progress-bar"><div id="dash-progress-fill" class="progress-fill" style="width: 23%; background: linear-gradient(90deg, rgb(10, 124, 78), rgb(22, 163, 110));"></div></div>
           <div class="progress-label"><span>계약금 + 중도금 1차 완료</span><span>3/9회</span></div>
         </div>
         <table style="width:100%;font-size:11px;">
           <tbody><tr><td style="color:#888;padding:4px 0;">분양가 (발코니·에어컨 포함)</td><td class="tnum" style="font-weight:700;">817,200,000</td></tr>
-          <tr><td style="color:#888;padding:4px 0;">납부 완료 (계약금+중도금1차)</td><td class="tnum" style="color:#0a7c4e;font-weight:700;">-158,920,000</td></tr>
-          <tr><td style="color:#888;padding:4px 0;">중도금 대출 예정 (2~4차)</td><td class="tnum" style="color:#e07b00;font-weight:700;">238,380,000</td></tr>
-          <tr><td style="color:#888;padding:4px 0;">자납 예정 (5~6차)</td><td class="tnum" style="color:#6c3483;font-weight:700;">158,820,000</td></tr>
-          <tr><td style="color:#888;padding:4px 0;">잔금 (30년 1월)</td><td class="tnum" style="color:#c0392b;font-weight:700;">238,380,000+</td></tr>
+          <tr><td style="color:#888;padding:4px 0;">납부 완료 (계약금+중도금1차)</td><td class="tnum" id="dash-apt-paid" style="color:#0a7c4e;font-weight:700;">-188,900,170</td></tr>
+          <tr><td style="color:#888;padding:4px 0;">중도금 대출 예정 (2~4차)</td><td class="tnum" id="dash-apt-loan" style="color:#e07b00;font-weight:700;">238,380,000</td></tr>
+          <tr><td style="color:#888;padding:4px 0;">자납 예정 (5~6차)</td><td class="tnum" id="dash-apt-self" style="color:#6c3483;font-weight:700;">92,000,000</td></tr>
+          <tr><td style="color:#888;padding:4px 0;">잔금 (30년 1월)</td><td class="tnum" id="dash-apt-balance" style="color:#c0392b;font-weight:700;">222,000,000+</td></tr>
         </tbody></table>
       </div>
       <div class="card" style="margin-bottom:0;">
@@ -532,8 +479,8 @@ tr.row-folded .row-fold-btn{color:#aaa;}
 <div id="panel-apt" class="panel">
   <div class="stats-row">
     <div class="stat-card"><div class="stat-label">총 분양금액</div><div class="stat-value c-blue">817,200,000</div><div class="stat-sub">분양가+발코니+에어컨</div></div>
-    <div class="stat-card"><div class="stat-label">납부 완료</div><div class="stat-value c-green">158,920,000</div><div class="stat-sub">계약금+중도금1차</div></div>
-    <div class="stat-card"><div class="stat-label">중도금 대출 예정</div><div class="stat-value c-orange">238,380,000</div><div class="stat-sub">2~4차 대출</div></div>
+    <div class="stat-card"><div class="stat-label">납부 완료</div><div class="stat-value c-green" id="apt-stat-paid">188,900,170</div><div class="stat-sub">계약금+중도금1차</div></div>
+    <div class="stat-card"><div class="stat-label">중도금 대출 예정</div><div class="stat-value c-orange" id="apt-stat-loan">238,380,000</div><div class="stat-sub">2~4차 대출</div></div>
     <div class="stat-card"><div class="stat-label">잔금 (30년 1월)</div><div class="stat-value c-red">238,380,000+</div><div class="stat-sub">대출+자납 혼합</div></div>
   </div>
 
@@ -1250,6 +1197,7 @@ function recalcDoneTotal(tbodyId, totalId, colIdx){
   });
   const el = document.getElementById(totalId);
   if(el) el.textContent = fmt(sum);
+  updateDashboard();
 }
 
 // ═══ 숫자 콤마 자동 포맷터 ═══
@@ -1288,6 +1236,7 @@ function recalcLoanTotals(){
   if(el('loan-int-total')) el('loan-int-total').textContent = fmt(interest);
   if(el('loan-gua-total')) el('loan-gua-total').textContent = fmt(guarantee);
   if(el('loan-jab-total')) el('loan-jab-total').textContent = fmt(jabAmt);
+  updateDashboard();
 }
 
 const FUND_TARGETS = {
@@ -1317,6 +1266,7 @@ function recalcFundTotal(tbodyId, totalId, colIdx){
       statusEl.style.color = '#c0392b';
     }
   }
+  updateDashboard();
 }
 
 function recalcTradeTotal(){
@@ -1624,29 +1574,73 @@ function calcMonthly(){
 }
 
 function updateDashboard(){
-  // Savings - dynamically sum from DOM
+  // 예적금 합계
   let savingsTotal = 0;
   document.querySelectorAll('#savings-tbody .s-mat').forEach(td => savingsTotal += parseNum(td.textContent));
   document.querySelectorAll('#deposit-tbody .d-mat').forEach(td => savingsTotal += parseNum(td.textContent));
-  
-  // Parking
-  const parking = 24011126;
-  
-  // Stocks
+
+  // 파킹 (주식탭 파킹 행에서 동적 읽기)
+  const parkingEl = document.querySelector('[data-kind="parking"] .s-val');
+  const parking = parkingEl ? parseNum(parkingEl.textContent) : 0;
+
+  // 주식 (파킹 행 제외)
   let stockTotal = 0;
-  document.querySelectorAll('#stock-tbody .s-val').forEach(v => stockTotal += parseNum(v.textContent));
-  
+  document.querySelectorAll('#stock-tbody tr:not([data-kind="parking"]) .s-val').forEach(v => stockTotal += parseNum(v.textContent));
+
   const total = savingsTotal + parking + stockTotal;
-  const monthlySav = 700000+200000+100000+500000;
-  
+
+  // 월저축합계 (이번달 저축+추가저축 행)
+  const curCol = 2 + new Date().getMonth();
+  let monthlySav = 0;
+  document.querySelectorAll('#monthly-tbody tr[data-type="saving"], #monthly-tbody tr[data-type="extra"]').forEach(tr => {
+    const cells = tr.querySelectorAll('td');
+    if(cells[curCol]) monthlySav += parseNum(cells[curCol].textContent);
+  });
+
   document.getElementById('d-total').textContent = fmt(total)+'원';
   document.getElementById('d-savings').textContent = fmt(savingsTotal)+'원';
   document.getElementById('d-parking').textContent = fmt(parking)+'원';
   document.getElementById('d-stocks').textContent = fmt(stockTotal)+'원';
   document.getElementById('d-monthly').textContent = fmt(monthlySav)+'원';
-  
   if(document.getElementById('stock-total2'))
     document.getElementById('stock-total2').textContent = fmt(stockTotal)+'원';
+
+  // 의뷰아 자금현황
+  const done1 = parseNum(document.getElementById('done1-total')?.textContent||'0');
+  const done2 = parseNum(document.getElementById('done2-total')?.textContent||'0');
+  const done3 = parseNum(document.getElementById('done3-total')?.textContent||'0');
+  const aptPaid = done1 + done2 + done3;
+
+  let aptLoan = 0;
+  document.querySelectorAll('#loan-tbody tr').forEach(tr => {
+    const tds = tr.querySelectorAll('td');
+    if(tds.length >= 9 && tds[7].textContent.includes('대출') && tds[8].textContent.includes('예정')){
+      aptLoan += parseNum(tds[2].textContent||'0');
+    }
+  });
+
+  const fund5 = parseNum(document.getElementById('fund5-total')?.textContent||'0');
+  const fund6 = parseNum(document.getElementById('fund6-total')?.textContent||'0');
+  const aptSelf = fund5 + fund6;
+  const aptBalance = parseNum(document.getElementById('fund-balance-total')?.textContent||'0');
+
+  const elPaid = document.getElementById('dash-apt-paid');
+  const elLoan = document.getElementById('dash-apt-loan');
+  const elSelf = document.getElementById('dash-apt-self');
+  const elBal  = document.getElementById('dash-apt-balance');
+  if(elPaid) elPaid.textContent = '-'+fmt(aptPaid);
+  if(elLoan) elLoan.textContent = fmt(aptLoan);
+  if(elSelf) elSelf.textContent = fmt(aptSelf);
+  if(elBal)  elBal.textContent  = fmt(aptBalance)+'+';
+
+  const aptStatPaid = document.getElementById('apt-stat-paid');
+  const aptStatLoan = document.getElementById('apt-stat-loan');
+  if(aptStatPaid) aptStatPaid.textContent = fmt(aptPaid);
+  if(aptStatLoan) aptStatLoan.textContent = fmt(aptLoan);
+
+  const pct = Math.min(100, Math.round((aptPaid / 817200000) * 100));
+  const pfill = document.getElementById('dash-progress-fill');
+  if(pfill) pfill.style.width = pct+'%';
 }
 
 // ═══ AUTO-SAVE ═══
@@ -1743,14 +1737,12 @@ function saveMemo(){
 
 // ═══ GitHub 자동 업로드 ═══
 function getGHConfig(){
-  // 기본값 세팅 (첫 방문 시)
   if(!localStorage.getItem('gh_repo')) localStorage.setItem('gh_repo','jhjung-hub/jh-hub');
   if(!localStorage.getItem('gh_path')) localStorage.setItem('gh_path','Money Map/Money Map.html');
   return {
-    token: localStorage.getItem('gh_token')||''
-,
-    repo:  localStorage.getItem('gh_repo')||'',
-    path:  localStorage.getItem('gh_path')||''
+    token: localStorage.getItem('gh_token')||'',
+    repo:  localStorage.getItem('gh_repo')||'jhjung-hub/jh-hub',
+    path:  localStorage.getItem('gh_path')||'Money Map/Money Map.html'
   };
 }
 function showGHStatus(msg, ok){
