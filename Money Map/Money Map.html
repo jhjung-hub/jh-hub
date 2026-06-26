@@ -177,6 +177,25 @@ tr.row-folded .row-fold-btn{color:#aaa;}
     <div class="form-group"><label>새 비밀번호 확인</label><input class="form-input" type="password" id="s-pw-confirm" placeholder="새 비밀번호 다시 입력"></div>
     <div style="color:#c0392b;font-size:11px;min-height:16px;" id="s-pw-err"></div>
 
+
+    <hr class="section-divider">
+    <div style="font-size:12px;font-weight:700;color:#333;margin-bottom:4px;">🐙 GitHub 자동 업로드</div>
+    <div style="font-size:10px;color:#aaa;margin-bottom:10px;">저장 시 GitHub 레포에 자동으로 파일을 업데이트합니다</div>
+    <div class="form-group">
+      <label>Personal Access Token</label>
+      <input class="form-input" type="password" id="s-gh-token" placeholder="ghp_xxxxxxxxxxxx">
+    </div>
+    <div class="form-group">
+      <label>Repository (owner/repo)</label>
+      <input class="form-input" type="text" id="s-gh-repo" placeholder="jhjung-hub/-">
+    </div>
+    <div class="form-group">
+      <label>파일 경로</label>
+      <input class="form-input" type="text" id="s-gh-path" placeholder="Money Map.html">
+    </div>
+    <div style="font-size:10px;color:#aaa;margin-bottom:8px;">※ Token은 Settings → Developer settings → Personal access tokens (classic) → repo 권한 필요</div>
+    <div id="s-gh-status" style="font-size:11px;min-height:14px;"></div>
+
     <hr class="section-divider">
     <button class="save-btn" onclick="saveSettings()">💾 저장</button>
   </div>
@@ -184,10 +203,11 @@ tr.row-folded .row-fold-btn{color:#aaa;}
 
 <!-- ═══ MAIN APP ═══ -->
 <div id="main-app" style="display:none;">
+<div id="gh-status-bar" style="display:none;padding:4px 16px;font-size:11px;text-align:right;background:#f0fff4;border-bottom:1px solid #b2dfdb;color:#0a7c4e;" id="gh-status-bar"></div>
 
 <div class="header">
   <div class="header-top">
-    <h1 id="app-title">MoneyMap</h1>
+    <h1 id="app-title">Money Map</h1>
     <button class="icon-btn" onclick="openSettings()" title="설정">⚙️</button>
     <button class="icon-btn" onclick="doLock()" title="잠금">🔒</button>
   </div>
@@ -236,8 +256,11 @@ tr.row-folded .row-fold-btn{color:#aaa;}
   <div class="two-col">
     <!-- LEFT: 타임라인 -->
     <div class="card">
-      <div class="card-title">📅 다가오는 만기·이벤트</div>
-      <div class="timeline">
+      <div class="card-title">
+        📅 다가오는 만기·이벤트
+        <button class="btn btn-edit btn-sm" id="hide-done-btn" onclick="toggleHideDone()" style="font-size:10px;">지난건 숨기기</button>
+      </div>
+      <div class="timeline" id="timeline-wrap">
         <div class="tl-item">
           <div class="tl-dot done"></div>
           <div class="tl-date">2026.01.19 완료</div>
@@ -316,8 +339,14 @@ tr.row-folded .row-fold-btn{color:#aaa;}
         </table>
       </div>
       <div class="card" style="margin-bottom:0;">
-        <div class="card-title">📌 메모</div>
-        <textarea id="memo" oninput="persistData()" style="width:100%;border:1px solid #e8e8e8;border-radius:8px;padding:10px;font-size:12px;resize:vertical;min-height:90px;font-family:inherit;color:#333;" placeholder="메모를 입력하세요...">• 중도금 1차 납부 완료 (26.06.15)
+        <div class="card-title">
+          📌 메모
+          <div style="display:flex;gap:6px;">
+            <button class="btn btn-edit btn-sm" id="memo-edit-btn" onclick="toggleMemoEdit()">✏️ 수정</button>
+            <button class="btn btn-success btn-sm" id="memo-save-btn" style="display:none;" onclick="saveMemo()">💾 저장</button>
+          </div>
+        </div>
+        <textarea id="memo" readonly style="width:100%;border:1.5px solid #e8e8e8;border-radius:8px;padding:10px;font-size:12px;resize:vertical;min-height:90px;font-family:inherit;color:#333;cursor:default;background:#fafafa;box-sizing:border-box;" placeholder="메모를 입력하세요...">• 중도금 1차 납부 완료 (26.06.15)
 • 신협적금 만기 임박 (26.06.26) → 재예치 계획 수립
 • 하나청약 회차 계속 유지</textarea>
       </div>
@@ -914,6 +943,7 @@ function doLock(){
 function openSettings(){
   document.getElementById('s-title').value = getTitle();
   renderTabOrderList();
+  loadGHSettings();
   document.getElementById('s-pw-current').value='';
   document.getElementById('s-pw-new').value='';
   document.getElementById('s-pw-confirm').value='';
@@ -954,7 +984,7 @@ function moveTabItem(idx, dir){
 }
 function closeSettings(){ document.getElementById('settings-modal').classList.remove('open'); }
 function saveSettings(){
-  const newTitle = document.getElementById('s-title').value.trim() || 'MoneyMap';
+  const newTitle = document.getElementById('s-title').value.trim() || 'Money Map';
   localStorage.setItem('app_title', newTitle);
   const items = Array.from(document.querySelectorAll('#tab-order-list .tab-order-item'));
   const savedTabs = items.map(item => ({id:item.dataset.id, name:item.querySelector('input').value.trim()||item.dataset.id}));
@@ -968,6 +998,7 @@ function saveSettings(){
     if(nw !== cf){ document.getElementById('s-pw-err').textContent='새 비밀번호가 일치하지 않습니다.'; return; }
     localStorage.setItem('app_pw', nw);
   }
+  saveGHSettings();
   applySettings();
   closeSettings();
   alert('저장되었습니다.');
@@ -1561,6 +1592,8 @@ function persistData(){
     const cash = document.getElementById('acct-cash');
     if(cash) localStorage.setItem('data_acct_cash', cash.textContent);
   } catch(e){}
+  // GitHub 자동 업로드
+  if(typeof pushToGitHub === 'function') pushToGitHub();
 }
 function restoreData(){
   try {
@@ -1581,7 +1614,130 @@ function restoreData(){
   } catch(e){}
 }
 
+
+// ═══ 타임라인 지난건 숨기기 ═══
+let hideDone = localStorage.getItem('hide_done') === '1';
+function toggleHideDone(){
+  hideDone = !hideDone;
+  localStorage.setItem('hide_done', hideDone ? '1' : '0');
+  applyHideDone();
+}
+function applyHideDone(){
+  const btn = document.getElementById('hide-done-btn');
+  document.querySelectorAll('#timeline-wrap .tl-item').forEach(item => {
+    const dot = item.querySelector('.tl-dot');
+    if(dot && dot.classList.contains('done')){
+      item.style.display = hideDone ? 'none' : '';
+    }
+  });
+  if(btn) btn.textContent = hideDone ? '지난것 보기' : '지난건 숨기기';
+  if(btn) btn.style.background = hideDone ? '#e6f9f0' : '';
+}
+
+// ═══ 메모 수정/저장 ═══
+function toggleMemoEdit(){
+  const memo = document.getElementById('memo');
+  const editBtn = document.getElementById('memo-edit-btn');
+  const saveBtn = document.getElementById('memo-save-btn');
+  memo.readOnly = false;
+  memo.style.background = 'white';
+  memo.style.cursor = 'text';
+  memo.style.borderColor = '#a78bfa';
+  memo.focus();
+  editBtn.style.display = 'none';
+  saveBtn.style.display = '';
+}
+function saveMemo(){
+  const memo = document.getElementById('memo');
+  const editBtn = document.getElementById('memo-edit-btn');
+  const saveBtn = document.getElementById('memo-save-btn');
+  memo.readOnly = true;
+  memo.style.background = '#fafafa';
+  memo.style.cursor = 'default';
+  memo.style.borderColor = '#e8e8e8';
+  editBtn.style.display = '';
+  saveBtn.style.display = 'none';
+  persistData();
+  pushToGitHub();
+}
+
+// ═══ GitHub 자동 업로드 ═══
+function getGHConfig(){
+  return {
+    token: localStorage.getItem('gh_token')||'',
+    repo:  localStorage.getItem('gh_repo')||'',
+    path:  localStorage.getItem('gh_path')||''
+  };
+}
+function showGHStatus(msg, ok){
+  const bar = document.getElementById('gh-status-bar');
+  if(!bar) return;
+  bar.textContent = msg;
+  bar.style.display = '';
+  bar.style.background = ok ? '#f0fff4' : '#fff3f3';
+  bar.style.color = ok ? '#0a7c4e' : '#c0392b';
+  clearTimeout(bar._t);
+  bar._t = setTimeout(() => bar.style.display='none', 4000);
+}
+async function pushToGitHub(){
+  const {token, repo, path} = getGHConfig();
+  if(!token || !repo || !path) return;
+  try {
+    showGHStatus('⏳ GitHub 업로드 중...', true);
+    // Serialize current DOM
+    const memo = document.getElementById('memo');
+    const clone = document.documentElement.cloneNode(true);
+    // Sync textarea
+    if(memo){
+      const cloneMemo = clone.querySelector('#memo');
+      if(cloneMemo) cloneMemo.textContent = memo.value;
+    }
+    // Remove status bar content to avoid loop
+    const cloneBar = clone.querySelector('#gh-status-bar');
+    if(cloneBar){ cloneBar.style.display='none'; cloneBar.textContent=''; }
+    const htmlContent = '<!DOCTYPE html>\n' + clone.outerHTML;
+    const encoded = btoa(unescape(encodeURIComponent(htmlContent)));
+    // Get current SHA
+    const infoResp = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
+      headers:{ Authorization: 'token '+token, Accept:'application/vnd.github.v3+json' }
+    });
+    const info = await infoResp.json();
+    if(!info.sha){ showGHStatus('❌ 파일을 찾을 수 없습니다 (경로 확인)', false); return; }
+    // Push
+    const pushResp = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
+      method:'PUT',
+      headers:{ Authorization:'token '+token, 'Content-Type':'application/json' },
+      body: JSON.stringify({ message:'Money Map 자동 업데이트', content: encoded, sha: info.sha })
+    });
+    if(pushResp.ok) showGHStatus('✅ GitHub 저장 완료', true);
+    else showGHStatus('❌ 업로드 실패 (토큰/권한 확인)', false);
+  } catch(e){
+    showGHStatus('❌ 오류: '+e.message, false);
+  }
+}
+
+// GitHub 설정 저장 (saveSettings에 연결)
+function saveGHSettings(){
+  const token = document.getElementById('s-gh-token')?.value.trim();
+  const repo  = document.getElementById('s-gh-repo')?.value.trim();
+  const path  = document.getElementById('s-gh-path')?.value.trim();
+  if(token) localStorage.setItem('gh_token', token);
+  if(repo)  localStorage.setItem('gh_repo', repo);
+  if(path)  localStorage.setItem('gh_path', path);
+}
+function loadGHSettings(){
+  const t = localStorage.getItem('gh_token');
+  const r = localStorage.getItem('gh_repo');
+  const p = localStorage.getItem('gh_path');
+  if(t) document.getElementById('s-gh-token').value = t;
+  if(r) document.getElementById('s-gh-repo').value = r;
+  if(p) document.getElementById('s-gh-path').value = p;
+}
+
 function initAll(){
+  // localStorage 제목 마이그레이션: 구버전 'MoneyMap' → 'Money Map'
+  if(localStorage.getItem('app_title') === 'MoneyMap') localStorage.setItem('app_title','Money Map');
+
   restoreData();
   recalcStocks();
   calcMonthly();
@@ -1591,6 +1747,7 @@ function initAll(){
     .forEach(([tbody, total, col]) => recalcFundTotal(tbody, total, col));
   // Apply tab names
   applySettings();
+  applyHideDone();
 }
 </script>
 <div class="watermark">juuu8</div>
