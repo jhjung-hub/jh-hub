@@ -240,7 +240,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
     <button class="icon-btn" onclick="openSettings()" title="설정">⚙️</button>
     <button class="icon-btn" onclick="doLock()" title="잠금">🔒</button>
   </div>
-  <p id="header-date">마지막 업데이트: 2026년 6월 26일 22:19 · ⏳ 저장 중...</p>
+  <p id="header-date">마지막 업데이트: 2026년 6월 26일 22:22 · ⏳ 저장 중...</p>
   <div class="tabs">
     
     
@@ -461,9 +461,9 @@ tr.row-folded .row-fold-btn{color:#aaa;}
         <tfoot><tr class="summary-row"><td>합계</td><td class="tnum" id="bank-tot-bal">225,817</td><td class="tnum" id="bank-tot-park">24,011,126</td><td class="tnum" id="bank-tot-sav">7,400,000</td><td class="tnum" id="bank-tot-dep">91,933,505</td><td class="tnum" id="bank-tot-fund">51,780</td><td class="tnum" id="bank-tot-sub">19,100,000</td><td class="tnum" id="bank-tot-dooyak">18,900,000</td></tr></tfoot>
       </table>
     </div>
-    <div id="bank-save-row" style="margin-top: 10px; text-align: right; display: none;">
+    <div id="bank-save-row" style="display:none;margin-top:10px;text-align:right;">
       <button class="btn btn-success" onclick="saveBankEdit()">💾 저장</button>
-      <button class="btn btn-danger" onclick="cancelBankEdit()" style="margin-left:6px;">취소</button>
+      
     </div>
   </div>
 
@@ -492,9 +492,9 @@ tr.row-folded .row-fold-btn{color:#aaa;}
         <tfoot><tr class="summary-row"><td colspan="2">합계</td><td class="tnum" id="sav-monthly-total">2,100,000</td><td class="tnum" id="sav-principal-total">51,200,000</td><td class="tnum" id="savings-total">81,321,998</td><td colspan="4"></td></tr></tfoot>
       </table>
     </div>
-    <div id="savings-save-row" style="margin-top: 10px; text-align: right; display: none;">
+    <div id="savings-save-row" style="display:none;margin-top:10px;text-align:right;">
       <button class="btn btn-success" onclick="saveTableEdit('savings-tbody','savings-save-row')">💾 저장</button>
-      <button class="btn btn-danger" onclick="cancelTableEdit('savings-tbody','savings-save-row')" style="margin-left:6px;">취소</button>
+      
     </div>
   </div>
 
@@ -521,9 +521,9 @@ tr.row-folded .row-fold-btn{color:#aaa;}
         <tfoot><tr class="summary-row"><td colspan="2">만기수령액 합계</td><td class="tnum" id="deposit-principal-total">146,324,803</td><td class="tnum" id="deposit-total">148,241,750</td><td colspan="4"></td></tr></tfoot>
       </table>
     </div>
-    <div id="deposit-save-row" style="margin-top: 10px; text-align: right; display: none;">
+    <div id="deposit-save-row" style="display:none;margin-top:10px;text-align:right;">
       <button class="btn btn-success" onclick="saveTableEdit('deposit-tbody','deposit-save-row')">💾 저장</button>
-      <button class="btn btn-danger" onclick="cancelTableEdit('deposit-tbody','deposit-save-row')" style="margin-left:6px;">취소</button>
+      
     </div>
   </div>
 </div>
@@ -565,7 +565,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
       <div class="card-title">💡 자금 출처 계획</div>
 
       <!-- 앞으로 납부할 것 (펼쳐진 상태) -->
-      <div class="section-header" style="margin-top:0;font-size:11px;">중도금 5차 (29.01.15) · 79,460,000원 <button class="btn btn-edit btn-sm" onclick="toggleFundEdit('fund5-body','fund5-save')">✏️</button></div>
+      <div class="section-header" style="margin-top:0;font-size:11px;">중도금 5차 (29.01.15) · 79,460,000원 <button class="btn btn-edit btn-sm" onclick="toggleFundEdit('fund5-body','fund5-save',this)">✏️</button></div>
       <div class="table-wrap" style="margin-bottom:14px;">
         <table>
           <thead><tr><th>출처</th><th>만기/해지일</th><th>금액</th><th>비고</th></tr></thead>
@@ -575,10 +575,10 @@ tr.row-folded .row-fold-btn{color:#aaa;}
           </tbody>
           <tfoot><tr class="summary-row"><td colspan="2">합계</td><td class="tnum" id="fund5-total">92,000,000</td><td id="fund5-status" style="font-weight: 700; color: rgb(10, 124, 78);">✓ 예산 충족</td></tr></tfoot>
         </table>
-        <div id="fund5-save" style="margin-top: 6px;"><button class="btn btn-sm" style="background:#e8f4fd;color:#1A3A5C;border:1px solid #b8d4ea;float:left;" onclick="addFundRow('fund5-body')">+ 행 추가</button><span style="float:right;"><button class="btn btn-success btn-sm" onclick="saveFundEdit('fund5-body','fund5-save')">💾 저장</button><button class="btn btn-danger btn-sm" onclick="cancelFundEdit('fund5-body','fund5-save')" style="margin-left:4px;">취소</button></span><div style="clear:both;"></div></div>
+        <div id="fund5-save" style="display:none;margin-top:6px;"><button class="btn btn-sm" style="background:#e8f4fd;color:#1A3A5C;border:1px solid #b8d4ea;float:left;" onclick="addFundRow('fund5-body')">+ 행 추가</button><span style="float:right;"><button class="btn btn-success btn-sm" onclick="saveFundEdit('fund5-body','fund5-save')">💾 저장</button></span><div style="clear:both;"></div></div>
       </div>
 
-      <div class="section-header" style="font-size:11px;">중도금 6차 (29.06.15) · 79,460,000원 <button class="btn btn-edit btn-sm" onclick="toggleFundEdit('fund6-body','fund6-save')">✏️</button></div>
+      <div class="section-header" style="font-size:11px;">중도금 6차 (29.06.15) · 79,460,000원 <button class="btn btn-edit btn-sm" onclick="toggleFundEdit('fund6-body','fund6-save',this)">✏️</button></div>
       <div class="table-wrap" style="margin-bottom:14px;">
         <table>
           <thead><tr><th>출처</th><th>만기/해지일</th><th>금액</th><th>비고</th></tr></thead>
@@ -587,10 +587,10 @@ tr.row-folded .row-fold-btn{color:#aaa;}
           </tbody>
           <tfoot><tr class="summary-row"><td colspan="2">합계</td><td class="tnum" id="fund6-total">0</td><td id="fund6-status" style="font-weight: 700; color: rgb(192, 57, 43);">✗ 예산 부족</td></tr></tfoot>
         </table>
-        <div id="fund6-save" style="display:none;margin-top:6px;"><button class="btn btn-sm" style="background:#e8f4fd;color:#1A3A5C;border:1px solid #b8d4ea;float:left;" onclick="addFundRow('fund6-body')">+ 행 추가</button><span style="float:right;"><button class="btn btn-success btn-sm" onclick="saveFundEdit('fund6-body','fund6-save')">💾 저장</button><button class="btn btn-danger btn-sm" onclick="cancelFundEdit('fund6-body','fund6-save')" style="margin-left:4px;">취소</button></span><div style="clear:both;"></div></div>
+        <div id="fund6-save" style="display:none;margin-top:6px;"><button class="btn btn-sm" style="background:#e8f4fd;color:#1A3A5C;border:1px solid #b8d4ea;float:left;" onclick="addFundRow('fund6-body')">+ 행 추가</button><span style="float:right;"><button class="btn btn-success btn-sm" onclick="saveFundEdit('fund6-body','fund6-save')">💾 저장</button></span><div style="clear:both;"></div></div>
       </div>
 
-      <div class="section-header" style="font-size:11px;">잔금 (30.01) · 238,380,000원+α <button class="btn btn-edit btn-sm" onclick="toggleFundEdit('fund-balance-body','fund-balance-save')">✏️</button></div>
+      <div class="section-header" style="font-size:11px;">잔금 (30.01) · 238,380,000원+α <button class="btn btn-edit btn-sm" onclick="toggleFundEdit('fund-balance-body','fund-balance-save',this)">✏️</button></div>
       <div class="table-wrap" style="margin-bottom:14px;">
         <table>
           <thead><tr><th>출처</th><th>만기/해지일</th><th>금액</th><th>비고</th></tr></thead>
@@ -602,7 +602,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
           </tbody>
           <tfoot><tr class="summary-row"><td colspan="2">합계</td><td class="tnum" id="fund-balance-total">222,000,000</td><td id="fund-balance-status" style="font-weight: 700; color: rgb(192, 57, 43);">✗ 예산 부족</td></tr></tfoot>
         </table>
-        <div id="fund-balance-save" style="display:none;margin-top:6px;"><button class="btn btn-sm" style="background:#e8f4fd;color:#1A3A5C;border:1px solid #b8d4ea;float:left;" onclick="addFundRow('fund-balance-body')">+ 행 추가</button><span style="float:right;"><button class="btn btn-success btn-sm" onclick="saveFundEdit('fund-balance-body','fund-balance-save')">💾 저장</button><button class="btn btn-danger btn-sm" onclick="cancelFundEdit('fund-balance-body','fund-balance-save')" style="margin-left:4px;">취소</button></span><div style="clear:both;"></div></div>
+        <div id="fund-balance-save" style="display:none;margin-top:6px;"><button class="btn btn-sm" style="background:#e8f4fd;color:#1A3A5C;border:1px solid #b8d4ea;float:left;" onclick="addFundRow('fund-balance-body')">+ 행 추가</button><span style="float:right;"><button class="btn btn-success btn-sm" onclick="saveFundEdit('fund-balance-body','fund-balance-save')">💾 저장</button></span><div style="clear:both;"></div></div>
       </div>
 
       <!-- 납부완료 (접힌 상태) -->
@@ -877,9 +877,9 @@ tr.row-folded .row-fold-btn{color:#aaa;}
         </tbody>
       </table>
     </div>
-    <div id="monthly-save-row" style="margin-top: 10px; text-align: right; display: none;">
+    <div id="monthly-save-row" style="display:none;margin-top:10px;text-align:right;">
       <button class="btn btn-success" onclick="saveMonthlyEdit()">💾 저장</button>
-      <button class="btn btn-danger" onclick="cancelMonthlyEdit()" style="margin-left:6px;">취소</button>
+      
     </div>
   </div>
 </div>
@@ -893,7 +893,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
       <div class="card-title">
         📈 보유 종목
         <div style="display:flex;gap:6px;">
-          <button class="btn btn-edit btn-sm" id="stock-add-btn" onclick="addStockRow()" style="display: none;">+ 행 추가</button>
+          <button class="btn btn-edit btn-sm" id="stock-add-btn" onclick="addStockRow()" style="display:none;">+ 행 추가</button>
           <button class="btn btn-edit btn-sm" id="stock-edit-btn" onclick="toggleStockEdit()">✏️</button>
         </div>
       </div>
@@ -902,7 +902,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
           <thead>
             <tr><th>종목명</th><th>1주당 구매가</th><th>보유주식수</th><th>총매수원금</th><th>평가금액</th><th>비중</th><th>비고</th><th></th></tr>
           </thead>
-          <tbody id="stock-tbody" class="">
+          <tbody id="stock-tbody">
             <tr data-kind="parking"><td>파킹 (예수금)</td><td class="tnum s-buy-price" contenteditable="true"><br></td><td class="tnum s-qty" contenteditable="true"><br></td><td class="tnum s-cost" contenteditable="true"><br></td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">0</td><td class="tnum s-pct">0.0%</td><td class="s-note">파킹통장</td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td></tr>
             <tr><td contenteditable="true">레인보우로보틱스</td><td class="tnum s-buy-price" contenteditable="true">10,000</td><td class="tnum s-qty" contenteditable="true">10<br></td><td class="tnum s-cost">100,000</td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">10,199,560</td><td class="tnum s-pct">22.2%</td><td class="s-note" contenteditable="true"></td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td></tr>
             <tr><td contenteditable="true">로보스타</td><td class="tnum s-buy-price" contenteditable="true"><br></td><td class="tnum s-qty" contenteditable="true"><br></td><td class="tnum s-cost">—</td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">875,246</td><td class="tnum s-pct">1.9%</td><td class="s-note" contenteditable="true"></td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td></tr>
@@ -923,7 +923,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
           </tfoot>
         </table>
       </div>
-      <div id="stock-save-row" style="margin-top: 10px; text-align: right; display: none;"><button class="btn btn-success" onclick="saveStockEdit()">💾 저장</button><button class="btn btn-danger" onclick="cancelStockEdit()" style="margin-left:6px;">취소</button></div>
+      <div id="stock-save-row" style="display:none;margin-top:10px;text-align:right;"><button class="btn btn-success" onclick="saveStockEdit()">💾 저장</button></div>
     </div>
   </div>
 
@@ -943,7 +943,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
       <div class="card-title">
         📝 매매 이력
         <div style="display:flex;gap:6px;">
-          <button class="btn btn-edit btn-sm" id="trade-add-btn" onclick="addTradeRow()" style="display: none;">+ 행 추가</button>
+          <button class="btn btn-edit btn-sm" id="trade-add-btn" onclick="addTradeRow()" style="display:none;">+ 행 추가</button>
           <button class="btn btn-edit btn-sm" id="trade-edit-btn" onclick="toggleTradeEdit()">✏️</button>
         </div>
       </div>
@@ -952,7 +952,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
           <thead>
             <tr><th>종목명</th><th>1주당 구매가</th><th>1주당 판매가</th><th>총매수원금</th><th>총판매수익</th><th>매도일자</th><th></th></tr>
           </thead>
-          <tbody id="trade-tbody" class="">
+          <tbody id="trade-tbody">
             <tr><td contenteditable="true">삼성전기</td><td class="tnum" contenteditable="true">55</td><td class="tnum" contenteditable="true"><br></td><td class="tnum" contenteditable="true"><br></td><td class="tnum" contenteditable="true">30,647,587</td><td contenteditable="true">—</td><td><button class="btn-icon" onclick="delTradeRow(this)">🗑</button></td></tr>
             <tr><td contenteditable="true">삼성전자</td><td class="tnum" contenteditable="true"><br></td><td class="tnum" contenteditable="true">1,000</td><td class="tnum" contenteditable="true"><br></td><td class="tnum" contenteditable="true">9,161,640</td><td contenteditable="true">—</td><td><button class="btn-icon" onclick="delTradeRow(this)">🗑</button></td></tr>
             <tr><td contenteditable="true">한미반도체</td><td class="tnum" contenteditable="true">10</td><td class="tnum" contenteditable="true">1,000</td><td class="tnum" contenteditable="true">100,000</td><td class="tnum" contenteditable="true">1,736,520</td><td contenteditable="true">—</td><td><button class="btn-icon" onclick="delTradeRow(this)">🗑</button></td></tr>
@@ -965,7 +965,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
           </tfoot>
         </table>
       </div>
-      <div id="trade-save-row" style="margin-top: 10px; text-align: right; display: none;"><button class="btn btn-success" onclick="saveTradeEdit()">💾 저장</button><button class="btn btn-danger" onclick="cancelTradeEdit()" style="margin-left:6px;">취소</button></div>
+      <div id="trade-save-row" style="display:none;margin-top:10px;text-align:right;"><button class="btn btn-success" onclick="saveTradeEdit()">💾 저장</button></div>
     </div>
   </div>
 
@@ -1554,7 +1554,7 @@ function cancelTradeEdit(){
 // ═══ 자금출처 편집 ═══
 const fundEditState = {}, fundOrigData = {};
 const FUND_TOTAL_MAP = {'fund5-body':'fund5-total','fund6-body':'fund6-total','fund-balance-body':'fund-balance-total'};
-function toggleFundEdit(tbodyId, saveRowId){
+function toggleFundEdit(tbodyId, saveRowId, btn){
   const mode = !fundEditState[tbodyId];
   fundEditState[tbodyId] = mode;
   const tbody = document.getElementById(tbodyId);
@@ -1570,7 +1570,8 @@ function toggleFundEdit(tbodyId, saveRowId){
       }
     });
     saveRow.style.display = '';
-  } else { cancelFundEdit(tbodyId, saveRowId); }
+    if(btn) btn.textContent = '✕';
+  } else { cancelFundEdit(tbodyId, saveRowId, btn); }
 }
 function addFundRow(tbodyId){
   const tbody = document.getElementById(tbodyId);
@@ -1590,19 +1591,21 @@ function saveFundEdit(tbodyId, saveRowId){
   const tbody = document.getElementById(tbodyId);
   tbody.querySelectorAll('tr').forEach(tr => {
     tr.querySelectorAll('td:not(:last-child)').forEach(td => td.contentEditable = 'false');
-    // 삭제버튼 td 제거
     const delTd = tr.querySelector('.fund-del-btn')?.closest('td');
     if(delTd) delTd.remove();
   });
   document.getElementById(saveRowId).style.display = 'none';
+  document.querySelectorAll(`[onclick*="${tbodyId}"]`).forEach(b => { if(b.textContent==='✕') b.textContent='✏️'; });
   persistData();
 }
-function cancelFundEdit(tbodyId, saveRowId){
+function cancelFundEdit(tbodyId, saveRowId, btn){
   fundEditState[tbodyId] = false;
   const tbody = document.getElementById(tbodyId);
   if(fundOrigData[tbodyId]) tbody.innerHTML = fundOrigData[tbodyId];
   tbody.querySelectorAll('td').forEach(c => c.contentEditable = 'false');
   document.getElementById(saveRowId).style.display = 'none';
+  if(btn) btn.textContent = '✏️';
+  else document.querySelectorAll(`[onclick*="${tbodyId}"]`).forEach(b => { if(b.textContent==='✕') b.textContent='✏️'; });
 }
 
 // ═══ CALCULATIONS ═══
