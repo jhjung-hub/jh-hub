@@ -238,7 +238,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
     <button class="icon-btn" onclick="openSettings()" title="설정">⚙️</button>
     <button class="icon-btn" onclick="doLock()" title="잠금">🔒</button>
   </div>
-  <p id="header-date">마지막 업데이트: 2026년 6월 26일 21:40 · ⏳ 저장 중...</p>
+  <p id="header-date">마지막 업데이트: 2026년 6월 26일 21:43 · ⏳ 저장 중...</p>
   <div class="tabs">
     
     
@@ -902,7 +902,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
           </thead>
           <tbody id="stock-tbody">
             <tr data-kind="parking"><td>파킹 (예수금)</td><td class="tnum s-buy-price" contenteditable="true">—</td><td class="tnum s-qty" contenteditable="true">—</td><td class="tnum s-cost" contenteditable="true">—</td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">0</td><td class="tnum s-pct">0.0%</td><td class="s-note">파킹통장</td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td></tr>
-            <tr><td contenteditable="false">레인보우로보틱스</td><td class="tnum s-buy-price" contenteditable="true">10,000<br></td><td class="tnum s-qty" contenteditable="true">—</td><td class="tnum s-cost">—</td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">10,199,560</td><td class="tnum s-pct">22.2%</td><td class="s-note" contenteditable="true"></td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td></tr>
+            <tr><td contenteditable="false">레인보우로보틱스</td><td class="tnum s-buy-price" contenteditable="true">10,000<br></td><td class="tnum s-qty" contenteditable="true">10<br></td><td class="tnum s-cost">100,000</td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">10,199,560</td><td class="tnum s-pct">22.2%</td><td class="s-note" contenteditable="true"></td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td></tr>
             <tr><td contenteditable="false">로보스타</td><td class="tnum s-buy-price" contenteditable="true">—</td><td class="tnum s-qty" contenteditable="true">—</td><td class="tnum s-cost">—</td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">875,246</td><td class="tnum s-pct">1.9%</td><td class="s-note" contenteditable="true"></td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td></tr>
             <tr><td contenteditable="false">삼성SDI</td><td class="tnum s-buy-price" contenteditable="true">—</td><td class="tnum s-qty" contenteditable="true">—</td><td class="tnum s-cost">—</td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">3,856,272</td><td class="tnum s-pct">8.4%</td><td class="s-note" contenteditable="true"></td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td></tr>
             <tr><td contenteditable="false">삼성전기</td><td class="tnum s-buy-price" contenteditable="true">—</td><td class="tnum s-qty" contenteditable="true">—</td><td class="tnum s-cost">—</td><td class="tnum s-val" contenteditable="true" oninput="recalcStocks()">5,988,000</td><td class="tnum s-pct">13.0%</td><td class="s-note" contenteditable="true">일부 매도</td><td><button class="btn-icon" onclick="delStockRow(this)">🗑</button></td></tr>
@@ -913,8 +913,8 @@ tr.row-folded .row-fold-btn{color:#aaa;}
           <tfoot>
             <tr class="summary-row">
               <td>합계</td><td></td>
-              <td class="tnum" id="stock-qty-total">—</td>
-              <td class="tnum" id="stock-cost-total">—</td>
+              <td class="tnum" id="stock-qty-total">10</td>
+              <td class="tnum" id="stock-cost-total">100,000</td>
               <td class="tnum" id="stock-total">45,920,974</td>
               <td class="tnum">100%</td><td colspan="2"></td>
             </tr>
