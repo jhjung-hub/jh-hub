@@ -238,7 +238,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
     <button class="icon-btn" onclick="openSettings()" title="설정">⚙️</button>
     <button class="icon-btn" onclick="doLock()" title="잠금">🔒</button>
   </div>
-  <p id="header-date">마지막 업데이트: 2026년 6월 26일 21:43 · ⏳ 저장 중...</p>
+  <p id="header-date">마지막 업데이트: 2026년 6월 26일 21:47 · ⏳ 저장 중...</p>
   <div class="tabs">
     
     
@@ -421,11 +421,11 @@ tr.row-folded .row-fold-btn{color:#aaa;}
         <div class="card-title">
           📌 메모
           <div style="display:flex;gap:6px;">
-            <button class="btn btn-edit btn-sm" id="memo-edit-btn" onclick="toggleMemoEdit()" style="">✏️ 수정</button>
-            <button class="btn btn-success btn-sm" id="memo-save-btn" style="display: none;" onclick="saveMemo()">💾 저장</button>
+            <button class="btn btn-edit btn-sm" id="memo-edit-btn" onclick="toggleMemoEdit()">✏️ 수정</button>
+            <button class="btn btn-success btn-sm" id="memo-save-btn" style="display:none;" onclick="saveMemo()">💾 저장</button>
           </div>
         </div>
-        <textarea id="memo" style="width: 100%; border: 1.5px solid rgb(232, 232, 232); border-radius: 8px; padding: 10px; font-size: 12px; resize: vertical; min-height: 90px; font-family: inherit; color: rgb(51, 51, 51); cursor: default; background: rgb(250, 250, 250); box-sizing: border-box;" placeholder="메모를 입력하세요..." readonly="">ㅇㅇㅇ</textarea>
+        <textarea id="memo" readonly="" style="width:100%;border:1.5px solid #e8e8e8;border-radius:8px;padding:10px;font-size:12px;resize:vertical;min-height:90px;font-family:inherit;color:#333;cursor:default;background:#fafafa;box-sizing:border-box;" placeholder="메모를 입력하세요...">ㅇㅇㅇ</textarea>
       </div>
     </div>
   </div>
@@ -573,7 +573,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
           </tbody>
           <tfoot><tr class="summary-row"><td colspan="2">합계</td><td class="tnum" id="fund5-total">92,000,000</td><td id="fund5-status" style="font-weight: 700; color: rgb(10, 124, 78);">✓ 예산 충족</td></tr></tfoot>
         </table>
-        <div id="fund5-save" style="margin-top: 6px; display: none;"><button class="btn btn-sm" style="background:#e8f4fd;color:#1A3A5C;border:1px solid #b8d4ea;float:left;" onclick="addFundRow('fund5-body')">+ 행 추가</button><span style="float:right;"><button class="btn btn-success btn-sm" onclick="saveFundEdit('fund5-body','fund5-save')">💾 저장</button><button class="btn btn-danger btn-sm" onclick="cancelFundEdit('fund5-body','fund5-save')" style="margin-left:4px;">취소</button></span><div style="clear:both;"></div></div>
+        <div id="fund5-save" style="display:none;margin-top:6px;"><button class="btn btn-sm" style="background:#e8f4fd;color:#1A3A5C;border:1px solid #b8d4ea;float:left;" onclick="addFundRow('fund5-body')">+ 행 추가</button><span style="float:right;"><button class="btn btn-success btn-sm" onclick="saveFundEdit('fund5-body','fund5-save')">💾 저장</button><button class="btn btn-danger btn-sm" onclick="cancelFundEdit('fund5-body','fund5-save')" style="margin-left:4px;">취소</button></span><div style="clear:both;"></div></div>
       </div>
 
       <div class="section-header" style="font-size:11px;">중도금 6차 (29.06.15) · 79,460,000원 <button class="btn btn-edit btn-sm" onclick="toggleFundEdit('fund6-body','fund6-save')">✏️</button></div>
@@ -949,7 +949,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
           <tbody id="trade-tbody">
             <tr><td contenteditable="true">삼성전기</td><td class="tnum" contenteditable="true">55</td><td class="tnum" contenteditable="true">—</td><td class="tnum" contenteditable="true">—</td><td class="tnum" contenteditable="true">30,647,587</td><td contenteditable="true">—</td><td><button class="btn-icon" onclick="delTradeRow(this)">🗑</button></td></tr>
             <tr><td contenteditable="true">삼성전자</td><td class="tnum" contenteditable="true">—</td><td class="tnum" contenteditable="true">1000</td><td class="tnum" contenteditable="true">—</td><td class="tnum" contenteditable="true">9,161,640</td><td contenteditable="true">—</td><td><button class="btn-icon" onclick="delTradeRow(this)">🗑</button></td></tr>
-            <tr><td contenteditable="true">한미반도체</td><td class="tnum" contenteditable="true">—</td><td class="tnum" contenteditable="true">—</td><td class="tnum" contenteditable="true">—</td><td class="tnum" contenteditable="true">1,736,520</td><td contenteditable="true">—</td><td><button class="btn-icon" onclick="delTradeRow(this)">🗑</button></td></tr>
+            <tr><td contenteditable="true">한미반도체</td><td class="tnum" contenteditable="true">—</td><td class="tnum" contenteditable="true">1,000</td><td class="tnum" contenteditable="true">—</td><td class="tnum" contenteditable="true">1,736,520</td><td contenteditable="true">—</td><td><button class="btn-icon" onclick="delTradeRow(this)">🗑</button></td></tr>
             <tr><td contenteditable="true">현대오토에버</td><td class="tnum" contenteditable="true">—</td><td class="tnum" contenteditable="true">—</td><td class="tnum" contenteditable="true">—</td><td class="tnum" contenteditable="true">1,397,200</td><td contenteditable="true">—</td><td><button class="btn-icon" onclick="delTradeRow(this)">🗑</button></td></tr>
             <tr><td contenteditable="true">현대차</td><td class="tnum" contenteditable="true">—</td><td class="tnum" contenteditable="true">—</td><td class="tnum" contenteditable="true">—</td><td class="tnum" contenteditable="true">1,207,580</td><td contenteditable="true">—</td><td><button class="btn-icon" onclick="delTradeRow(this)">🗑</button></td></tr>
             <tr><td contenteditable="true">SK하이닉스 (일부)</td><td class="tnum" contenteditable="true">—</td><td class="tnum" contenteditable="true">—</td><td class="tnum" contenteditable="true">—</td><td class="tnum" contenteditable="true">20,958,000</td><td contenteditable="true">—</td><td><button class="btn-icon" onclick="delTradeRow(this)">🗑</button></td></tr>
@@ -1284,7 +1284,7 @@ document.addEventListener('focusout', function(e){
   const raw = el.textContent.trim().replace(/[^0-9]/g,'');
   if(raw && raw !== '0') {
     const formatted = parseInt(raw).toLocaleString('ko-KR');
-    if(el.textContent.replace(/,/g,'') !== formatted.replace(/,/g,'')) {
+    if(el.textContent.trim() !== formatted) {
       el.textContent = formatted;
       el.dispatchEvent(new Event('input', {bubbles:true}));
     }
@@ -1474,30 +1474,30 @@ function delTradeRow(btn){
 }
 let tradeEditMode = false, tradeOrig = [];
 function toggleTradeEdit(){
+  // 매매이력은 항상 편집 가능 - 버튼은 저장/취소 표시만 담당
   tradeEditMode = !tradeEditMode;
-  const tbody = document.getElementById('trade-tbody');
   const saveRow = document.getElementById('trade-save-row');
   const btn = document.getElementById('trade-edit-btn');
   if(tradeEditMode){
-    tradeOrig = Array.from(tbody.querySelectorAll('td')).map(c => c.innerHTML);
-    tbody.querySelectorAll('td:not(:last-child)').forEach(c => c.contentEditable = 'true');
+    tradeOrig = Array.from(document.getElementById('trade-tbody').querySelectorAll('td')).map(c => c.innerHTML);
     saveRow.style.display = '';
     btn.textContent = '✕';
   } else { cancelTradeEdit(); }
 }
 function saveTradeEdit(){
   tradeEditMode = false;
-  document.getElementById('trade-tbody').querySelectorAll('td').forEach(c => c.contentEditable = 'false');
   document.getElementById('trade-save-row').style.display = 'none';
   document.getElementById('trade-edit-btn').textContent = '✏️ 수정';
+  recalcTradeTotal();
   persistData();
 }
 function cancelTradeEdit(){
   tradeEditMode = false;
   const cells = document.getElementById('trade-tbody').querySelectorAll('td');
-  cells.forEach((c,i) => { if(tradeOrig[i]!==undefined) c.innerHTML = tradeOrig[i]; c.contentEditable = 'false'; });
+  cells.forEach((c,i) => { if(tradeOrig[i]!==undefined) c.innerHTML = tradeOrig[i]; });
   document.getElementById('trade-save-row').style.display = 'none';
   document.getElementById('trade-edit-btn').textContent = '✏️ 수정';
+  recalcTradeTotal();
 }
 
 // ═══ 자금출처 편집 ═══
@@ -2037,6 +2037,7 @@ function initAll(){
   recalcSavingsTotal();
   recalcDepositTotal();
   recalcBankTotals();
+  recalcTradeTotal();
   calcMonthly();
   updateDashboard();
   // 자금 출처 상태 초기화
