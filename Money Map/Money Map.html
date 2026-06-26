@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title id="page-title">MoneyMap</title>
+<title id="page-title">Money Map</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
+.watermark{position:fixed;bottom:14px;right:18px;font-size:9pt;color:#1a1a2e;opacity:0.2;font-weight:500;letter-spacing:0.05em;pointer-events:none;z-index:9999;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f2f5;color:#1a1a2e;font-size:13px;}
 
 /* ── LOCK SCREEN ── */
@@ -146,7 +147,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
 <div id="lock-screen">
   <div class="lock-box">
     <div class="lock-icon">🔐</div>
-    <div class="lock-title" id="lock-app-title">MoneyMap</div>
+    <div class="lock-title" id="lock-app-title">Money Map</div>
     <div class="lock-sub">비밀번호를 입력하세요</div>
     <input class="lock-input" type="password" id="pw-input" placeholder="••••" maxlength="20" onkeydown="if(event.key==='Enter')unlock()">
     <button class="lock-btn" onclick="unlock()">잠금 해제</button>
@@ -161,7 +162,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
     
     <div class="form-group">
       <label>앱 제목</label>
-      <input class="form-input" type="text" id="s-title" placeholder="MoneyMap">
+      <input class="form-input" type="text" id="s-title" placeholder="Money Map">
     </div>
 
     <hr class="section-divider">
@@ -316,7 +317,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
       </div>
       <div class="card" style="margin-bottom:0;">
         <div class="card-title">📌 메모</div>
-        <textarea id="memo" style="width:100%;border:1px solid #e8e8e8;border-radius:8px;padding:10px;font-size:12px;resize:vertical;min-height:90px;font-family:inherit;color:#333;" placeholder="메모를 입력하세요...">• 중도금 1차 납부 완료 (26.06.15)
+        <textarea id="memo" oninput="persistData()" style="width:100%;border:1px solid #e8e8e8;border-radius:8px;padding:10px;font-size:12px;resize:vertical;min-height:90px;font-family:inherit;color:#333;" placeholder="메모를 입력하세요...">• 중도금 1차 납부 완료 (26.06.15)
 • 신협적금 만기 임박 (26.06.26) → 재예치 계획 수립
 • 하나청약 회차 계속 유지</textarea>
       </div>
@@ -463,9 +464,9 @@ tr.row-folded .row-fold-btn{color:#aaa;}
             <tr><td contenteditable="true">국민 청년도약 만기</td><td contenteditable="true">29.03.18</td><td class="tnum" contenteditable="true" oninput="recalcFundTotal('fund5-body','fund5-total',2)">50,000,000</td><td contenteditable="true">29.03.18 만기</td></tr>
             <tr><td>27~29 저축</td><td contenteditable="true">—</td><td class="tnum" contenteditable="true" oninput="recalcFundTotal('fund5-body','fund5-total',2)">42,000,000</td><td contenteditable="true">예상</td></tr>
           </tbody>
-          <tfoot><tr class="summary-row"><td colspan="2">합계</td><td class="tnum" id="fund5-total">92,000,000</td><td style="color:#0a7c4e;font-weight:700;">✓ 예상 충족</td></tr></tfoot>
+          <tfoot><tr class="summary-row"><td colspan="2">합계</td><td class="tnum" id="fund5-total">92,000,000</td><td id="fund5-status" style="font-weight:700;">✓ 예산 충족</td></tr></tfoot>
         </table>
-        <div id="fund5-save" style="display:none;margin-top:6px;text-align:right;"><button class="btn btn-success btn-sm" onclick="saveFundEdit('fund5-body','fund5-save')">💾 저장</button><button class="btn btn-danger btn-sm" onclick="cancelFundEdit('fund5-body','fund5-save')" style="margin-left:4px;">취소</button></div>
+        <div id="fund5-save" style="display:none;margin-top:6px;"><button class="btn btn-sm" style="background:#e8f4fd;color:#1A3A5C;border:1px solid #b8d4ea;float:left;" onclick="addFundRow('fund5-body')">+ 행 추가</button><span style="float:right;"><button class="btn btn-success btn-sm" onclick="saveFundEdit('fund5-body','fund5-save')">💾 저장</button><button class="btn btn-danger btn-sm" onclick="cancelFundEdit('fund5-body','fund5-save')" style="margin-left:4px;">취소</button></span><div style="clear:both;"></div></div>
       </div>
 
       <div class="section-header" style="font-size:11px;">중도금 6차 (29.06.15) · 79,460,000원 <button class="btn btn-edit btn-sm" onclick="toggleFundEdit('fund6-body','fund6-save')">✏️</button></div>
@@ -475,9 +476,9 @@ tr.row-folded .row-fold-btn{color:#aaa;}
           <tbody id="fund6-body">
             <tr><td contenteditable="true">저축 예정</td><td contenteditable="true">—</td><td class="tnum" contenteditable="true" oninput="recalcFundTotal('fund6-body','fund6-total',2)">79,460,000</td><td contenteditable="true">예상</td></tr>
           </tbody>
-          <tfoot><tr class="summary-row"><td colspan="2">합계</td><td class="tnum" id="fund6-total">79,460,000</td><td style="color:#0a7c4e;font-weight:700;">✓ 예상 충족</td></tr></tfoot>
+          <tfoot><tr class="summary-row"><td colspan="2">합계</td><td class="tnum" id="fund6-total">79,460,000</td><td id="fund6-status" style="font-weight:700;">✓ 예산 충족</td></tr></tfoot>
         </table>
-        <div id="fund6-save" style="display:none;margin-top:6px;text-align:right;"><button class="btn btn-success btn-sm" onclick="saveFundEdit('fund6-body','fund6-save')">💾 저장</button><button class="btn btn-danger btn-sm" onclick="cancelFundEdit('fund6-body','fund6-save')" style="margin-left:4px;">취소</button></div>
+        <div id="fund6-save" style="display:none;margin-top:6px;"><button class="btn btn-sm" style="background:#e8f4fd;color:#1A3A5C;border:1px solid #b8d4ea;float:left;" onclick="addFundRow('fund6-body')">+ 행 추가</button><span style="float:right;"><button class="btn btn-success btn-sm" onclick="saveFundEdit('fund6-body','fund6-save')">💾 저장</button><button class="btn btn-danger btn-sm" onclick="cancelFundEdit('fund6-body','fund6-save')" style="margin-left:4px;">취소</button></span><div style="clear:both;"></div></div>
       </div>
 
       <div class="section-header" style="font-size:11px;">잔금 (30.01) · 238,380,000원+α <button class="btn btn-edit btn-sm" onclick="toggleFundEdit('fund-balance-body','fund-balance-save')">✏️</button></div>
@@ -490,9 +491,9 @@ tr.row-folded .row-fold-btn{color:#aaa;}
             <tr><td>토스증권 잔액</td><td contenteditable="true">—</td><td class="tnum" contenteditable="true" oninput="recalcFundTotal('fund-balance-body','fund-balance-total',2)">20,000,000</td><td contenteditable="true">일부 활용</td></tr>
             <tr><td>추가 저축</td><td contenteditable="true">—</td><td class="tnum" contenteditable="true" oninput="recalcFundTotal('fund-balance-body','fund-balance-total',2)">42,000,000</td><td contenteditable="true">예상</td></tr>
           </tbody>
-          <tfoot><tr class="summary-row"><td colspan="2">합계</td><td class="tnum" id="fund-balance-total">242,000,000</td><td style="color:#0a7c4e;font-weight:700;">✓ 예상 충족</td></tr></tfoot>
+          <tfoot><tr class="summary-row"><td colspan="2">합계</td><td class="tnum" id="fund-balance-total">242,000,000</td><td id="fund-balance-status" style="font-weight:700;">✓ 예산 충족</td></tr></tfoot>
         </table>
-        <div id="fund-balance-save" style="display:none;margin-top:6px;text-align:right;"><button class="btn btn-success btn-sm" onclick="saveFundEdit('fund-balance-body','fund-balance-save')">💾 저장</button><button class="btn btn-danger btn-sm" onclick="cancelFundEdit('fund-balance-body','fund-balance-save')" style="margin-left:4px;">취소</button></div>
+        <div id="fund-balance-save" style="display:none;margin-top:6px;"><button class="btn btn-sm" style="background:#e8f4fd;color:#1A3A5C;border:1px solid #b8d4ea;float:left;" onclick="addFundRow('fund-balance-body')">+ 행 추가</button><span style="float:right;"><button class="btn btn-success btn-sm" onclick="saveFundEdit('fund-balance-body','fund-balance-save')">💾 저장</button><button class="btn btn-danger btn-sm" onclick="cancelFundEdit('fund-balance-body','fund-balance-save')" style="margin-left:4px;">취소</button></span><div style="clear:both;"></div></div>
       </div>
 
       <!-- 납부완료 (접힌 상태) -->
@@ -880,7 +881,7 @@ tr.row-folded .row-fold-btn{color:#aaa;}
 
 <script>
 // ═══ PASSWORD & SETTINGS ═══
-const DEFAULT_PW = '1234';
+const DEFAULT_PW = '9429';
 const DEFAULT_TABS = [
   {id:'dashboard',name:'📊 대시보드'},
   {id:'savings',name:'💰 예·적금'},
@@ -889,7 +890,7 @@ const DEFAULT_TABS = [
   {id:'stocks',name:'🍎 주식'}
 ];
 function getPW(){ return localStorage.getItem('app_pw') || DEFAULT_PW; }
-function getTitle(){ return localStorage.getItem('app_title') || 'MoneyMap'; }
+function getTitle(){ return localStorage.getItem('app_title') || 'Money Map'; }
 function getTabOrder(){ return JSON.parse(localStorage.getItem('tab_order') || 'null') || DEFAULT_TABS; }
 
 function unlock(){
@@ -1026,6 +1027,7 @@ function saveBankEdit(){
   document.getElementById('bank-save-row').style.display = 'none';
   document.getElementById('bank-edit-btn').textContent = '✏️ 수정';
   updateDashboard();
+  persistData();
 }
 function cancelBankEdit(){
   const cells = document.querySelectorAll('.bank-cell');
@@ -1076,6 +1078,7 @@ function saveTableEdit(tbodyId, saveRowId){
     }
   });
   document.getElementById(saveRowId).style.display = 'none';
+  persistData();
 }
 function cancelTableEdit(tbodyId, saveRowId){
   tableEditState[tbodyId] = false;
@@ -1176,6 +1179,11 @@ function recalcLoanTotals(){
   if(el('loan-jab-total')) el('loan-jab-total').textContent = fmt(jabAmt);
 }
 
+const FUND_TARGETS = {
+  'fund5-total': 79460000,
+  'fund6-total': 79460000,
+  'fund-balance-total': 238380000
+};
 function recalcFundTotal(tbodyId, totalId, colIdx){
   const rows = document.querySelectorAll('#'+tbodyId+' tr');
   let sum = 0;
@@ -1185,6 +1193,19 @@ function recalcFundTotal(tbodyId, totalId, colIdx){
   });
   const el = document.getElementById(totalId);
   if(el) el.textContent = fmt(sum);
+  // 상태 업데이트
+  const statusId = totalId.replace('-total', '-status');
+  const statusEl = document.getElementById(statusId);
+  const target = FUND_TARGETS[totalId];
+  if(statusEl && target !== undefined){
+    if(sum >= target){
+      statusEl.textContent = '✓ 예산 충족';
+      statusEl.style.color = '#0a7c4e';
+    } else {
+      statusEl.textContent = '✗ 예산 부족';
+      statusEl.style.color = '#c0392b';
+    }
+  }
 }
 
 function recalcTradeTotal(){
@@ -1268,6 +1289,7 @@ function saveMonthlyEdit(){
   document.getElementById('monthly-save-row').style.display = 'none';
   document.getElementById('monthly-edit-btn').textContent = '✏️ 수정';
   calcMonthly();
+  persistData();
 }
 function cancelMonthlyEdit(){
   monthlyEditMode = false;
@@ -1289,7 +1311,7 @@ function toggleStockEdit(){
     if(!td.closest('tr').dataset.kind) td.contentEditable = stockEditMode ? 'true' : 'false';
   });
   btn.textContent = stockEditMode ? '✕ 완료' : '✏️ 수정';
-  if(!stockEditMode) recalcStocks();
+  if(!stockEditMode){ recalcStocks(); persistData(); }
 }
 function addStockRow(){
   const tbody = document.getElementById('stock-tbody');
@@ -1329,6 +1351,7 @@ function saveTradeEdit(){
   document.getElementById('trade-tbody').querySelectorAll('td').forEach(c => c.contentEditable = 'false');
   document.getElementById('trade-save-row').style.display = 'none';
   document.getElementById('trade-edit-btn').textContent = '✏️ 수정';
+  persistData();
 }
 function cancelTradeEdit(){
   tradeEditMode = false;
@@ -1340,29 +1363,54 @@ function cancelTradeEdit(){
 
 // ═══ 자금출처 편집 ═══
 const fundEditState = {}, fundOrigData = {};
+const FUND_TOTAL_MAP = {'fund5-body':'fund5-total','fund6-body':'fund6-total','fund-balance-body':'fund-balance-total'};
 function toggleFundEdit(tbodyId, saveRowId){
   const mode = !fundEditState[tbodyId];
   fundEditState[tbodyId] = mode;
   const tbody = document.getElementById(tbodyId);
   const saveRow = document.getElementById(saveRowId);
   if(mode){
-    fundOrigData[tbodyId] = Array.from(tbody.querySelectorAll('td')).map(c => c.innerHTML);
-    tbody.querySelectorAll('td').forEach(td => td.contentEditable = 'true');
+    fundOrigData[tbodyId] = tbody.innerHTML;
+    tbody.querySelectorAll('tr').forEach(tr => {
+      tr.querySelectorAll('td').forEach(td => td.contentEditable = 'true');
+      if(!tr.querySelector('.fund-del-btn')){
+        const delTd = document.createElement('td');
+        delTd.innerHTML = `<button class="btn-icon fund-del-btn" onclick="delFundRow(this,'${tbodyId}')">🗑</button>`;
+        tr.appendChild(delTd);
+      }
+    });
     saveRow.style.display = '';
   } else { cancelFundEdit(tbodyId, saveRowId); }
 }
+function addFundRow(tbodyId){
+  const tbody = document.getElementById(tbodyId);
+  const totalId = FUND_TOTAL_MAP[tbodyId];
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td contenteditable="true">출처명</td><td contenteditable="true">—</td><td class="tnum" contenteditable="true" oninput="recalcFundTotal('${tbodyId}','${totalId}',2)">0</td><td contenteditable="true">—</td><td><button class="btn-icon fund-del-btn" onclick="delFundRow(this,'${tbodyId}')">🗑</button></td>`;
+  tbody.appendChild(tr);
+  recalcFundTotal(tbodyId, totalId, 2);
+}
+function delFundRow(btn, tbodyId){
+  const totalId = FUND_TOTAL_MAP[tbodyId];
+  btn.closest('tr').remove();
+  recalcFundTotal(tbodyId, totalId, 2);
+}
 function saveFundEdit(tbodyId, saveRowId){
   fundEditState[tbodyId] = false;
-  document.getElementById(tbodyId).querySelectorAll('td').forEach(c => c.contentEditable = 'false');
+  const tbody = document.getElementById(tbodyId);
+  tbody.querySelectorAll('tr').forEach(tr => {
+    tr.querySelectorAll('td:not(:last-child)').forEach(td => td.contentEditable = 'false');
+    // 삭제버튼 td 제거
+    const delTd = tr.querySelector('.fund-del-btn')?.closest('td');
+    if(delTd) delTd.remove();
+  });
   document.getElementById(saveRowId).style.display = 'none';
+  persistData();
 }
 function cancelFundEdit(tbodyId, saveRowId){
   fundEditState[tbodyId] = false;
   const tbody = document.getElementById(tbodyId);
-  if(fundOrigData[tbodyId]){
-    const cells = tbody.querySelectorAll('td');
-    fundOrigData[tbodyId].forEach((html,i) => { if(cells[i]) cells[i].innerHTML = html; });
-  }
+  if(fundOrigData[tbodyId]) tbody.innerHTML = fundOrigData[tbodyId];
   tbody.querySelectorAll('td').forEach(c => c.contentEditable = 'false');
   document.getElementById(saveRowId).style.display = 'none';
 }
@@ -1490,13 +1538,61 @@ function updateDashboard(){
     document.getElementById('stock-total2').textContent = fmt(stockTotal)+'원';
 }
 
+// ═══ AUTO-SAVE ═══
+const DATA_TBODIES = [
+  'savings-tbody','deposit-tbody','monthly-tbody',
+  'stock-tbody','trade-tbody','fund5-body','fund6-body',
+  'fund-balance-body','done1-tbody','done2-tbody','done3-tbody','loan-tbody'
+];
+function persistData(){
+  try {
+    // Bank table
+    const bankTbody = document.querySelector('#bank-table tbody');
+    if(bankTbody) localStorage.setItem('data_bank', bankTbody.innerHTML);
+    // All other tables
+    DATA_TBODIES.forEach(id => {
+      const el = document.getElementById(id);
+      if(el) localStorage.setItem('data_'+id, el.innerHTML);
+    });
+    // Memo
+    const memo = document.getElementById('memo');
+    if(memo) localStorage.setItem('data_memo', memo.value);
+    // acct-cash
+    const cash = document.getElementById('acct-cash');
+    if(cash) localStorage.setItem('data_acct_cash', cash.textContent);
+  } catch(e){}
+}
+function restoreData(){
+  try {
+    const bankTbody = document.querySelector('#bank-table tbody');
+    const bankData = localStorage.getItem('data_bank');
+    if(bankTbody && bankData) bankTbody.innerHTML = bankData;
+    DATA_TBODIES.forEach(id => {
+      const el = document.getElementById(id);
+      const saved = localStorage.getItem('data_'+id);
+      if(el && saved) el.innerHTML = saved;
+    });
+    const memo = document.getElementById('memo');
+    const memoData = localStorage.getItem('data_memo');
+    if(memo && memoData) memo.value = memoData;
+    const cash = document.getElementById('acct-cash');
+    const cashData = localStorage.getItem('data_acct_cash');
+    if(cash && cashData) cash.textContent = cashData;
+  } catch(e){}
+}
+
 function initAll(){
+  restoreData();
   recalcStocks();
   calcMonthly();
   updateDashboard();
+  // 자금 출처 상태 초기화
+  [['fund5-body','fund5-total',2],['fund6-body','fund6-total',2],['fund-balance-body','fund-balance-total',2]]
+    .forEach(([tbody, total, col]) => recalcFundTotal(tbody, total, col));
   // Apply tab names
   applySettings();
 }
 </script>
+<div class="watermark">juuu8</div>
 </body>
 </html>

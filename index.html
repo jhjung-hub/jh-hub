@@ -10,9 +10,7 @@
 
     body {
       font-family: 'Inter', -apple-system, sans-serif;
-      background-color: #F0F5FF;
-      background-image: radial-gradient(#C5D8FF 1px, transparent 1px);
-      background-size: 24px 24px;
+      background: #F0F5FF;
       color: #1A3A5C;
       min-height: 100vh;
       padding: 56px 24px;
@@ -105,10 +103,7 @@
 
     .item-content { flex: 1; }
 
-    .item-title {
-      font-size: 0.95rem; font-weight: 600;
-      color: #1A3A5C; margin-bottom: 3px;
-    }
+    .item-title { font-size: 0.95rem; font-weight: 600; color: #1A3A5C; margin-bottom: 3px; }
 
     .item-desc { font-size: 0.82rem; color: #6B8CAE; line-height: 1.4; }
 
@@ -119,9 +114,16 @@
 
     .item:hover .item-arrow { color: #1A3A5C; transform: translateX(4px); }
 
-    .footer {
-      margin-top: 40px; text-align: center;
-      font-size: 0.82rem; color: #6B8CAE;
+    .watermark {
+      position: fixed;
+      bottom: 14px;
+      right: 18px;
+      font-size: 9pt;
+      color: #1A3A5C;
+      opacity: 0.2;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      pointer-events: none;
     }
   </style>
 </head>
@@ -158,8 +160,7 @@
         <div class="item-arrow">→</div>
       </a>
     </div>
-
-    <div class="footer">오늘도 수고했어요 🎉</div>
   </div>
+  <div class="watermark">juuu8</div>
 </body>
 </html>
